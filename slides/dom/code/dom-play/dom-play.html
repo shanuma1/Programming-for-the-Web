@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DOM Play</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <h1>DOM Play</h1>
+    Show effects of running different DOM functions on example
+    <span class="em">Simpsons</span> content.
+    
+    <div class="html">
+
+      <h3>The Simpsons Characters</h3>
+
+      <dl class="characters">
+
+	<dt id="homer"><img src="homer-thumbnail.png"> Homer</dt>
+	<dd class="character">
+	  <dl class="properties">
+	    <dt>Full Name</dt>
+	    <dd class="fullName">Homer Jay Simpson</dd>
+	    <dt>Date of Birth</dt>
+	    <dd class="birthDate">
+	      <time datetime="1956-05-12">May 12, 1956</time>
+	    </dd>
+	    <dt>Spouse</dt>
+	    <dd class="spouse">Marge</dd>
+	    <dt>Catch Phrases</dt>
+	    <dd class="catchphrases">
+	      <ul>
+		<li><q>D'oh!</q></li>
+		<li><q>Why you little...!</q></li>
+		<li><q>Woo hoo!</q></li>
+	      </ul>
+	    </dd>
+	  </dl>
+	</dd>
+
+	<dt id="marge"><img src="marge-thumbnail.png"> Marge</dt>
+	<dd class="character">
+	  <dl class="properties">
+	    <dt>Full Name</dt>
+	    <dd class="fullName">Marjorie Jacqueline Simpson</dd>
+	    <dt>Date of Birth</dt>
+	    <dd class="birthDate">
+	      <time datetime="1956-10-01">Oct 1, 1956</time>
+	    </dd>
+	    <dt class="spouse">Spouse</dt>
+	    <dd>Homer</dd>
+	    <dt>Catch Phrases</dt>
+	    <dd class="catchphrases">
+	      <ul>
+		<li><q>Hmmmm...</q></li>
+		<li><q>Oh, Homie!</q></li>
+	      </ul>
+	    </dd>
+	  </dl>
+	</dd>
+
+	<dt id="bart"><img src="bart-thumbnail.png"> Bart</dt>
+	<dd class="character">
+	  <dl class="properties">
+	    <dt>Full Name</dt>
+	    <dd class="fullName">Bartholomew JoJo Simpson</dd>
+	    <dt>Date of Birth</dt>
+	    <dd class="birthDate">
+	      <time datetime="1980-04-01">Apr 1, 1980</time>
+	    </dd>
+	    <dt>Catch Phrases</dt>
+	    <dd class="catchphrases">
+	      <ul>
+		<li><q>Ay Caramba!</q></li>
+		<li><q>Don't have a cow, man.</q></li>
+		<li><q>I didn't do it!.</q></li>
+	      </ul>
+	    </dd>
+	  </dl>
+	</dd>
+
+	<dt id="lisa"><img src="lisa-thumbnail.png"> Lisa</dt>
+	<dd class="character">
+	  <dl class="properties">
+	    <dt>Full Name</dt>
+	    <dd class="fullName">Lisa Marie Simpson</dd>
+	    <dt>Date of Birth</dt>
+	    <dd class="birthDate">
+	      <time datetime="1982-05-09">May 9, 1982</time>
+	    </dd>
+	    <dt>Catch Phrases</dt>
+	    <dd class="catchphrases">
+	      <ul>
+		<li><q>If anyone wants me, I'll be in my room.</q></li>
+		<li><q>BAAAAART!</q></li>
+	      </ul>
+	    </dd>
+	  </dl>
+	</dd>
+
+      </dl>
+      
+    </div>
+    <iframe width="660" src="fns.js?colorize=true"></iframe>
+    <form id="dom-play">
+      <p><label>
+	<span class="label">Script</span>
+	<input size="60" class="script">
+      </label>
+      <input type="submit" value="update"></p>
+      <p><label>
+	<span class="label">HTML</span><br>
+	<textarea rows="25" cols="80" class="html">
+	</textarea>
+      </label></p>
+    </form>
+    <script class="script">
+      console.log('start');
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="dom-play.js"></script>
+    <script type="text/javascript" src="fns.js"></script>
+  </body>
+  
+</html>

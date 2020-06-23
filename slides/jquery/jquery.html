@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang='en-US'>
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../../assets/styles/article.css" rel="stylesheet" type="text/css" />
+  <title>CS 544: jQuery</title>
+<link href="jquery/hl-fine_blue.css" rel="stylesheet"/>
+</head>
+<body>
+    <nav>
+      <ul>
+	<li><a href="../../index.html" class="material-icons">house</a></li>
+	<li><a href="../../docs/index.html">Docs</a></li>
+	<li><a href="../../exams-quizzes/index.html">Exams &amp; Quizzes</a></li>
+	<li><a href="../../exercises/index.html">Exercises</a></li>
+	<li><a href="../../hws/index.html">Homeworks</a></li>
+	<li><a href="../../misc/index.html">Misc</a></li>
+	<li><a href="../../projects/index.html">Projects</a></li>
+	<li><a href="../../slides/index.html">Slides</a></li>
+	<li><a id="loginAction"></a></li>
+      </ul>
+    </nav>
+  <div class="slide-controls" style="display: none;">
+    <span class="float-left">
+      <span class="first-control">
+	<a href="#">
+	  <img src="../../assets/images/go-first.png">
+	</a>
+      </span>
+      <span class="previous-control">
+	<a href="#">
+	  <img src="../../assets/images/go-previous.png">
+	</a>
+      </span>
+    </span>
+    <span class="float-right">
+      <span class="next-control">
+	<a href="#">
+	  <img src="../../assets/images/go-next.png">
+	</a>
+      </span>
+      <span class="last-control">
+	<a href="#">
+	  <img src="../../assets/images/go-last.png">
+	</a>
+      </span>
+    </span>
+    <div class="slide-end">&nbsp;<br></div> <!-- hack -->
+  </div>
+<div class="content">
+<section data-coord="jquery.umt:1:0"><h1 data-coord="jquery.umt:1:0">jQuery</h1><section class="umt-slide" data-coord="jquery.umt:4:0"><h2 data-coord="jquery.umt:4:0">Overview</h2><ul data-coord="jquery.umt:7:0"><li data-coord="jquery.umt:7:0"><p data-coord="jquery.umt:7:4">Used by a large percentage (&gt; 70% as of
+<a href="https://w3techs.com/technologies/details/js-jquery/all/all" data-coord="jquery.umt:8:16">,</a>
+2020) of public facing web sites.
+</p></li><li data-coord="jquery.umt:11:0"><p data-coord="jquery.umt:11:4">Raison d'etre was hiding browser incompatibilities re. DOM
+and event model.
+</p></li><li data-coord="jquery.umt:14:0"><p data-coord="jquery.umt:14:4">Less necessary now that browsers and JavaScript implementations
+are more standards compliant.
+</p></li><li data-coord="jquery.umt:17:0"><p data-coord="jquery.umt:17:4">Newer applications using newer frameworks will typically not
+use jQuery.
+</p></li><li data-coord="jquery.umt:20:0"><p data-coord="jquery.umt:20:4">Nevertheless, it remains a very popular legacy framework.
+</p></li></ul></section><section class="umt-slide" data-coord="jquery.umt:23:0"><h2 data-coord="jquery.umt:23:0">Replaces DOM Tedium</h2><p data-coord="jquery.umt:27:0">From <a href="#jqia" data-coord="jquery.umt:27:14">jqia:</a>
+</p><pre><span class="hl kwa">let</span> checkedValue<span class="hl opt">;</span>
+<span class="hl kwa">let</span> elements <span class="hl opt">=</span>
+  document<span class="hl opt">.</span><span class="hl kwd">getElementsByTagName</span><span class="hl opt">(</span><span class="hl str">&apos;input&apos;</span><span class="hl opt">);</span>
+<span class="hl kwa">for</span> <span class="hl opt">(</span><span class="hl kwa">let</span> i <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span> i <span class="hl opt">&lt;</span> elements<span class="hl opt">.</span>length<span class="hl opt">;</span> i<span class="hl opt">++) {</span>
+  <span class="hl kwa">if</span> <span class="hl opt">(</span>elements<span class="hl opt">[</span>i<span class="hl opt">].</span>type <span class="hl opt">===</span> <span class="hl str">&apos;radio&apos;</span> <span class="hl opt">&amp;&amp;</span>
+      elements<span class="hl opt">[</span>i<span class="hl opt">].</span>name <span class="hl opt">===</span> <span class="hl str">&apos;some-radio-group&apos;</span> <span class="hl opt">&amp;&amp;</span>
+      elements<span class="hl opt">[</span>i<span class="hl opt">].</span>checked<span class="hl opt">) {</span>
+  checkedValue <span class="hl opt">=</span> elements<span class="hl opt">[</span>i<span class="hl opt">].</span>value<span class="hl opt">;</span>
+  <span class="hl kwa">break</span><span class="hl opt">;</span>
+ <span class="hl opt">}</span>
+<span class="hl opt">}</span>
+
+<span class="hl kwa">let</span> checkedValue <span class="hl opt">=</span>
+<span class="hl kwd">jQuery</span><span class="hl opt">(</span><span class="hl str">&apos;input:radio[name=&quot;some-radio-group&quot;]:checked&apos;</span><span class="hl opt">).</span><span class="hl kwd">val</span><span class="hl opt">();</span></pre></section><section class="umt-slide" data-coord="jquery.umt:46:0"><h2 data-coord="jquery.umt:46:0">jQuery Object</h2><ul data-coord="jquery.umt:49:0"><li data-coord="jquery.umt:49:0"><p data-coord="jquery.umt:49:4"><samp data-coord="jquery.umt:49:4">jQuery</samp> is a function which takes up to 2 arguments with
+different behavior based on form and type of arguments.
+</p></li><li data-coord="jquery.umt:52:0"><p data-coord="jquery.umt:52:4"><samp data-coord="jquery.umt:52:4">jQuery</samp> often aliased as <samp data-coord="jquery.umt:52:30">$</samp>.
+</p></li></ul></section><section class="umt-slide" data-coord="jquery.umt:54:0"><h2 data-coord="jquery.umt:54:0">On Load Handler</h2><p data-coord="jquery.umt:57:0">Need to wait for page to load before operating on DOM.
+<samp data-coord="jquery.umt:57:55">window.onload()</samp> handler provided by DOM:
+</p><pre>window<span class="hl opt">.</span><span class="hl kwd">onload</span> <span class="hl opt">=</span> <span class="hl kwa">function</span><span class="hl opt">() {</span> <span class="hl slc">//waits for page display,</span>
+  <span class="hl opt">...</span>                        <span class="hl slc">//and loading external assets</span>
+<span class="hl opt">}</span>                            <span class="hl slc">//only single onload() handler</span></pre><p data-coord="jquery.umt:66:0">replaced by jQuery's <samp data-coord="jquery.umt:66:21">$(document).ready()</samp> handler:
+</p><pre><span class="hl opt">$(</span><span class="hl kwa">function</span><span class="hl opt">() {</span>   <span class="hl slc">//waits for page DOM to be built;</span>
+  <span class="hl opt">...</span>            <span class="hl slc">//external assets may still be loading</span>
+<span class="hl opt">});</span>              <span class="hl slc">//can have multiple ready handlers.</span></pre></section><section class="umt-slide" data-coord="jquery.umt:75:0"><h2 data-coord="jquery.umt:75:0">jQuery Chaining</h2><p data-coord="jquery.umt:78:0">Most <samp data-coord="jquery.umt:78:5">jQuery</samp> functions return the object they operated on
+which allows method chaining.  Hence
+</p><pre>  obj<span class="hl opt">.</span><span class="hl kwd">fn1</span><span class="hl opt">().</span><span class="hl kwd">fn2</span><span class="hl opt">();</span></pre><p data-coord="jquery.umt:85:0">instead of:
+</p><pre>  obj<span class="hl opt">.</span><span class="hl kwd">fn1</span><span class="hl opt">();</span>
+  obj<span class="hl opt">.</span><span class="hl kwd">fn2</span><span class="hl opt">();</span></pre></section><section class="umt-slide" data-coord="jquery.umt:93:0"><h2 data-coord="jquery.umt:93:0">jQuery CSS Style Selectors</h2><ul data-coord="jquery.umt:96:0"><li data-coord="jquery.umt:96:0"><p data-coord="jquery.umt:96:4"><samp data-coord="jquery.umt:96:4">$('p.chemical')</samp> returns all <samp data-coord="jquery.umt:96:34">p</samp> elements having class <samp data-coord="jquery.umt:96:60">chemical</samp>.
+</p></li><li data-coord="jquery.umt:98:0"><p data-coord="jquery.umt:98:4"><samp data-coord="jquery.umt:98:4">$('#h2o.chemical')</samp> returns all elements having id <samp data-coord="jquery.umt:98:56">h2o</samp> and
+ class <samp data-coord="jquery.umt:98:77">chemical</samp>.
+</p></li><li data-coord="jquery.umt:101:0"><p data-coord="jquery.umt:101:4"><samp data-coord="jquery.umt:101:4">$('p .chemical')</samp> returns all elements with class <samp data-coord="jquery.umt:101:55">chemical</samp> which
+are descendents of <samp data-coord="jquery.umt:101:95">p</samp> elements.
+</p></li><li data-coord="jquery.umt:104:0"><p data-coord="jquery.umt:104:4"><samp data-coord="jquery.umt:104:4">$('p &gt; .chemical')</samp> returns all elements with class <samp data-coord="jquery.umt:104:57">chemical</samp> which
+are children of <samp data-coord="jquery.umt:104:94">p</samp> elements.
+</p></li><li data-coord="jquery.umt:107:0"><p data-coord="jquery.umt:107:4"><samp data-coord="jquery.umt:107:4">$('p + .chemical')</samp> returns all elements with class <samp data-coord="jquery.umt:107:57">chemical</samp> which
+are immediately preceeded by a <samp data-coord="jquery.umt:107:109">p</samp> sibling element.
+</p></li><li data-coord="jquery.umt:110:0"><p data-coord="jquery.umt:110:4"><samp data-coord="jquery.umt:110:4">$('p ~ .chemical')</samp> returns all elements with class <samp data-coord="jquery.umt:110:57">chemical</samp> which
+are preceeded by a <samp data-coord="jquery.umt:110:97">p</samp> sibling element.
+</p></li></ul></section><section class="umt-slide" data-coord="jquery.umt:114:0"><h2 data-coord="jquery.umt:114:0">Attribute Selectors</h2><ul data-coord="jquery.umt:117:0"><li data-coord="jquery.umt:117:0"><p data-coord="jquery.umt:117:4"><samp data-coord="jquery.umt:117:4">$('p[data-val]')</samp> matches elements of type <samp data-coord="jquery.umt:117:48">p</samp> which have a
+ <samp data-coord="jquery.umt:117:70">data-val</samp> attribute with any value.
+</p></li><li data-coord="jquery.umt:121:0"><p data-coord="jquery.umt:121:4"><samp data-coord="jquery.umt:121:4">$('.chemical[data-atomic-wt="92"]')</samp> matches elements having
+class <samp data-coord="jquery.umt:121:76">chemical</samp> having a <samp data-coord="jquery.umt:121:96">data-atomic-wt</samp> attribute having value
+<samp data-coord="jquery.umt:121:140">"92"</samp>.
+</p></li><li data-coord="jquery.umt:125:0"><p data-coord="jquery.umt:125:4"><samp data-coord="jquery.umt:125:4">$('.chemical[data-name^="A"]')</samp> matches elements having
+class <samp data-coord="jquery.umt:125:71">chemical</samp> having a <samp data-coord="jquery.umt:125:91">data-name</samp> attribute having value
+starting with <samp data-coord="jquery.umt:125:144">A</samp>.
+</p></li><li data-coord="jquery.umt:129:0"><p data-coord="jquery.umt:129:4"><samp data-coord="jquery.umt:129:4">$('.chemical[data-name$="ium"]')</samp> matches elements having
+class <samp data-coord="jquery.umt:129:73">chemical</samp> having a <samp data-coord="jquery.umt:129:93">data-name</samp> attribute having value
+ending with <samp data-coord="jquery.umt:129:144">ium</samp>.
+</p></li><li data-coord="jquery.umt:133:0"><p data-coord="jquery.umt:133:4"><samp data-coord="jquery.umt:133:4">$('.chemical[data-atomic-wt!="92"]')</samp> matches elements having
+class <samp data-coord="jquery.umt:133:77">chemical</samp> having a <samp data-coord="jquery.umt:133:97">data-atomic-wt</samp> attribute having value
+not equal to <samp data-coord="jquery.umt:133:154">"92"</samp> or lacks <samp data-coord="jquery.umt:133:170">data-atomic-wt</samp> attribute completely.
+</p></li></ul></section><section class="umt-slide" data-coord="jquery.umt:139:0"><h2 data-coord="jquery.umt:139:0">Position and Child Filters</h2><p data-coord="jquery.umt:142:0">Position filters: <samp data-coord="jquery.umt:142:18">:first</samp>, <samp data-coord="jquery.umt:142:28">:last</samp>, <samp data-coord="jquery.umt:142:37">:even</samp>, <samp data-coord="jquery.umt:142:46">:odd</samp>, <samp data-coord="jquery.umt:142:54">:eq(n)</samp>,
+<samp data-coord="jquery.umt:142:64">:gt(n)</samp>, <samp data-coord="jquery.umt:142:74">:lt(n)</samp>.  Indexes start at 0.
+</p><ul data-coord="jquery.umt:145:0"><li data-coord="jquery.umt:145:0"><p data-coord="jquery.umt:145:4"><samp data-coord="jquery.umt:145:4">$('p:first')</samp> selects first paragraph.
+</p></li><li data-coord="jquery.umt:147:0"><p data-coord="jquery.umt:147:4"><samp data-coord="jquery.umt:147:4">$('li:odd')</samp> selects all li elements at odd indexes.
+</p></li><li data-coord="jquery.umt:149:0"><p data-coord="jquery.umt:149:4"><samp data-coord="jquery.umt:149:4">$('li:gt(4):odd')</samp> selects all li elements at odd indexes
+ greater than 4.
+</p></li><li data-coord="jquery.umt:152:0"><p data-coord="jquery.umt:152:4"><samp data-coord="jquery.umt:152:4">$('ul:first-child')</samp> selects first child of <samp data-coord="jquery.umt:152:49">ul</samp>.
+</p></li><li data-coord="jquery.umt:154:0"><p data-coord="jquery.umt:154:4"><samp data-coord="jquery.umt:154:4">$('ul:last-child')</samp> selects last child of <samp data-coord="jquery.umt:154:47">ul</samp>.
+</p></li><li data-coord="jquery.umt:156:0"><p data-coord="jquery.umt:156:4"><samp data-coord="jquery.umt:156:4">$('ul:nth-child(3)')</samp> selects third child of <samp data-coord="jquery.umt:156:50">ul</samp> (index starts at 1).
+</p></li><li data-coord="jquery.umt:158:0"><p data-coord="jquery.umt:158:4"><samp data-coord="jquery.umt:158:4">$('ul:nth-child(3n+1)')</samp> selects first, fourth, ... child of <samp data-coord="jquery.umt:158:67">ul</samp>.
+</p></li></ul></section><section class="umt-slide" data-coord="jquery.umt:161:0"><h2 data-coord="jquery.umt:161:0">Form Filters</h2><p data-coord="jquery.umt:164:2"><samp data-coord="jquery.umt:164:2">$('input[name="widget"]:checked')</samp> selects <samp data-coord="jquery.umt:164:46">input</samp> controls having
+name <samp data-coord="jquery.umt:164:77">widget</samp> with state checked.
+</p><p data-coord="jquery.umt:167:2"><samp data-coord="jquery.umt:167:2">$('input:disabled')</samp> selects <samp data-coord="jquery.umt:167:32">input</samp> controls which are disabled.
+</p><p data-coord="jquery.umt:169:2"><samp data-coord="jquery.umt:169:2">$('input:focus')</samp> selects <samp data-coord="jquery.umt:169:29">input</samp> controls which are focused.
+</p><p data-coord="jquery.umt:171:2"><samp data-coord="jquery.umt:171:2">$(':selected')</samp> selects <samp data-coord="jquery.umt:171:27">option</samp> elements which are selected.
+</p></section><section class="umt-slide" data-coord="jquery.umt:173:0"><h2 data-coord="jquery.umt:173:0">Accessing and Updating Elements</h2><ul data-coord="jquery.umt:176:0"><li data-coord="jquery.umt:176:0"><p data-coord="jquery.umt:176:4"><samp data-coord="jquery.umt:176:4">addClass(names)</samp> / <samp data-coord="jquery.umt:176:24">removeClass(names)</samp> / <samp data-coord="jquery.umt:176:47">toggleClass(names)</samp>
+will add/remove/toggle classes given by spaced-delimited <samp data-coord="jquery.umt:176:129">names</samp>.
+</p></li><li data-coord="jquery.umt:179:0"><p data-coord="jquery.umt:179:4"><samp data-coord="jquery.umt:179:4">css(name)</samp> / <samp data-coord="jquery.umt:179:18">css(name, value)</samp> will return value css property
+<samp data-coord="jquery.umt:179:72">name</samp> of first matched / update css property <samp data-coord="jquery.umt:179:118">name</samp> of all
+matched to <samp data-coord="jquery.umt:179:147">value</samp>.
+</p></li><li data-coord="jquery.umt:183:0"><p data-coord="jquery.umt:183:4"><samp data-coord="jquery.umt:183:4">html()</samp> / <samp data-coord="jquery.umt:183:15">html(value)</samp> will access matched elements inner HTML /
+update inner HTML of matched elements to <samp data-coord="jquery.umt:183:116">value</samp>.
+</p></li><li data-coord="jquery.umt:186:0"><p data-coord="jquery.umt:186:4"><samp data-coord="jquery.umt:186:4">val()</samp> / <samp data-coord="jquery.umt:186:14">val(value)</samp> will return value of first matched form control /
+update all matched form control values to <samp data-coord="jquery.umt:186:123">value</samp>.
+</p></li><li data-coord="jquery.umt:189:0"><p data-coord="jquery.umt:189:4"><samp data-coord="jquery.umt:189:4">attr(name)</samp> / <samp data-coord="jquery.umt:189:19">attr(name, value)</samp> will return value of attribute
+ <samp data-coord="jquery.umt:189:75">name</samp> of first matched element / update attribute <samp data-coord="jquery.umt:189:126">name</samp> of all
+ matched elements to <samp data-coord="jquery.umt:189:165">value</samp>. If <samp data-coord="jquery.umt:189:177">value</samp> is a function return
+ value is new value; it is called with index and current value with
+ <samp data-coord="jquery.umt:189:283">this</samp> set to element.
+</p></li></ul></section><section class="umt-slide" data-coord="jquery.umt:195:0"><h2 data-coord="jquery.umt:195:0">Accessing and Updating Elements Continued</h2><ul data-coord="jquery.umt:198:0"><li data-coord="jquery.umt:198:0"><p data-coord="jquery.umt:198:4"><samp data-coord="jquery.umt:198:4">append(content)</samp> / <samp data-coord="jquery.umt:198:24">prepend(content)</samp> will append / prepend
+argument <samp data-coord="jquery.umt:198:78">content</samp> to content of all matched elements.  If
+<samp data-coord="jquery.umt:198:132">content</samp> is a function return value is added content; it is
+called with index and existing element context with <samp data-coord="jquery.umt:198:249">this</samp> set to
+element.
+</p></li><li data-coord="jquery.umt:204:0"><p data-coord="jquery.umt:204:4"><samp data-coord="jquery.umt:204:4">before(content)</samp> / <samp data-coord="jquery.umt:204:24">after(content)</samp> will insert <samp data-coord="jquery.umt:204:53">content</samp>
+as sibling before / after all matched elements.  The <samp data-coord="jquery.umt:204:120">content</samp>
+argument has the same semantics as for <samp data-coord="jquery.umt:204:173">append()</samp>.
+</p></li><li data-coord="jquery.umt:208:0"><p data-coord="jquery.umt:208:4"><samp data-coord="jquery.umt:208:4">remove()</samp> will remove all matched elements from DOM.  Can be called
+with optional parameter <samp data-coord="jquery.umt:208:101">selector</samp> as <samp data-coord="jquery.umt:208:115">remove(</samp>selector`) which
+allows filtering on elements to be removed.
+</p></li><li data-coord="jquery.umt:212:0"><p data-coord="jquery.umt:212:4"><samp data-coord="jquery.umt:212:4">detach()</samp> is like <samp data-coord="jquery.umt:212:23">remove()</samp> except that it retains events and data
+associated with elements so that the elements can be inserted back.
+Preferred way to make changes in background.
+</p></li></ul></section><section class="umt-slide" data-coord="jquery.umt:217:0"><h2 data-coord="jquery.umt:217:0">jQuery Event Handlers</h2><p data-coord="jquery.umt:221:1"><samp data-coord="jquery.umt:221:1">on(eventType, handler)</samp>
+</p><dl data-coord="jquery.umt:224:0"><dt data-coord="jquery.umt:224:2">eventType</dt><dd data-coord="jquery.umt:225:0"><p data-coord="jquery.umt:225:4">Includes <samp data-coord="jquery.umt:225:13">blur</samp>, <samp data-coord="jquery.umt:225:21">change</samp>, <samp data-coord="jquery.umt:225:31">click</samp>, <samp data-coord="jquery.umt:225:40">focus</samp>, <samp data-coord="jquery.umt:225:49">keydown</samp>, <samp data-coord="jquery.umt:225:60">keyup</samp>,
+<samp data-coord="jquery.umt:225:73">keypress</samp>, <samp data-coord="jquery.umt:225:85">mouse{down,enter,leave,move,out,over,up}</samp>, <samp data-coord="jquery.umt:225:129">select</samp>,
+<samp data-coord="jquery.umt:225:143">submit</samp>.
+</p></dd><dt data-coord="jquery.umt:230:2">handler</dt><dd data-coord="jquery.umt:231:0"><p data-coord="jquery.umt:231:4">Function which handles event.  First argument is the event which
+is a cleaned up version of the DOM event which provides event
+properties like the (x,y) position, target, etc.  Has
+methods like <samp data-coord="jquery.umt:231:210">preventDefault()</samp>, <samp data-coord="jquery.umt:231:230">stopPropagation()</samp>.
+</p><p data-coord="jquery.umt:236:4"><samp data-coord="jquery.umt:236:4">this</samp> accesses the DOM element to which the handler was bound.
+</p></dd></dl></section><section class="umt-slide" data-coord="jquery.umt:239:0"><h2 data-coord="jquery.umt:239:0">Other Event Methods</h2><dl data-coord="jquery.umt:242:0"><dt data-coord="jquery.umt:242:2"> <samp data-coord="jquery.umt:242:1">trigger(eventType)</samp> </dt><dd data-coord="jquery.umt:243:0"><p data-coord="jquery.umt:243:4">Trigger event <samp data-coord="jquery.umt:243:18">eventType</samp> on matched elements.
+</p></dd><dt data-coord="jquery.umt:245:2"> <samp data-coord="jquery.umt:245:1">off(eventType)</samp> </dt><dd data-coord="jquery.umt:246:0"><p data-coord="jquery.umt:246:4">Remove all event handlers for <samp data-coord="jquery.umt:246:34">eventType</samp> from matched elements.
+</p></dd></dl></section><section class="umt-slide" data-coord="jquery.umt:249:0"><h2 data-coord="jquery.umt:249:0">Example</h2><p data-coord="jquery.umt:253:0"><a href="code/jquery-play/jquery-play.html" data-coord="jquery.umt:253:37">jquery-play</a>
+</p><p data-coord="jquery.umt:255:0"><a href="code/inputs/inputs.html" data-coord="jquery.umt:255:27">Example</a> which illustrates use of input
+fields with a jQuery based <a href="code/inputs/inputs.js" data-coord="jquery.umt:255:118">script.</a>
+</p><p data-coord="jquery.umt:258:0">Example illustrates following concepts:
+</p><ul data-coord="jquery.umt:260:0"><li data-coord="jquery.umt:260:0"><p data-coord="jquery.umt:260:4">Data-driven programming.
+</p></li><li data-coord="jquery.umt:262:0"><p data-coord="jquery.umt:262:4">The use of Immediately Invoked Function Expressions (IIFEs) for
+encapsulation.
+</p></li><li data-coord="jquery.umt:265:0"><p data-coord="jquery.umt:265:4">The use of jQuery.
+</p></li></ul></section><section class="umt-slide" data-coord="jquery.umt:268:0"><h2 data-coord="jquery.umt:268:0">References</h2><p data-coord="jquery.umt:271:0"><em data-coord="jquery.umt:271:23"><a href="https://jquery.com/" data-coord="jquery.umt:271:23">jQuery Web Site</a></em>
+</p><p data-coord="jquery.umt:273:0"><span id="jqia" data-coord="jquery.umt:273:8">[jquia]</span> Bear Bibeault, Yehuda Katz, and Aurelio De Rosa, <em data-coord="jquery.umt:273:65">jQuery in Action</em>,
+Third Edition, Manning, 2015.
+</p></section></section>
+</div> <!-- #content -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../../assets/scripts/slide-controls.js"></script>
+<script src="../../assets/scripts/loginAction.js"></script>
+</body>
+</html>

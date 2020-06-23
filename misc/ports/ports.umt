@@ -1,0 +1,25 @@
+  		      P o r t s
+
+
+Link to services running on ports on `zdu.binghamton.edu`.  Note that
+these ports can only be accessed from machines within the CS network.
+Services can be accessed using cli tools like .<https://curl.haxx.se/>
+curl or gui tools like .<https://restlet.com/modules/client/> Restlet.
+
+  :User Web Services:
+    .<http://zdu.binghamton.edu:1234/users> "Port 1234".
+
+  :Project 3 Solution:
+    .<http://zdu.binghamton.edu:2345> "Port 2345". 
+
+  :HTTP Headers:
+    .<http://zdu.binghamton.edu:2000> "Port 2000". 
+
+  :User Server Side Application:
+    .<http://zdu.binghamton.edu:1235/users> "Port 1235".
+
+%%%
+  :Project 4 Solution:
+    .<http://zdu.binghamton.edu:2346> "Port 2346". 
+%%%
+    

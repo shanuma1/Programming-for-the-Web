@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang='en-US'>
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../../assets/styles/article.css" rel="stylesheet" type="text/css" />
+  <title>CS 544: Document Object Model</title>
+<link href="dom/hl-fine_blue.css" rel="stylesheet"/>
+</head>
+<body>
+    <nav>
+      <ul>
+	<li><a href="../../index.html" class="material-icons">house</a></li>
+	<li><a href="../../docs/index.html">Docs</a></li>
+	<li><a href="../../exams-quizzes/index.html">Exams &amp; Quizzes</a></li>
+	<li><a href="../../exercises/index.html">Exercises</a></li>
+	<li><a href="../../hws/index.html">Homeworks</a></li>
+	<li><a href="../../misc/index.html">Misc</a></li>
+	<li><a href="../../projects/index.html">Projects</a></li>
+	<li><a href="../../slides/index.html">Slides</a></li>
+	<li><a id="loginAction"></a></li>
+      </ul>
+    </nav>
+  <div class="slide-controls" style="display: none;">
+    <span class="float-left">
+      <span class="first-control">
+	<a href="#">
+	  <img src="../../assets/images/go-first.png">
+	</a>
+      </span>
+      <span class="previous-control">
+	<a href="#">
+	  <img src="../../assets/images/go-previous.png">
+	</a>
+      </span>
+    </span>
+    <span class="float-right">
+      <span class="next-control">
+	<a href="#">
+	  <img src="../../assets/images/go-next.png">
+	</a>
+      </span>
+      <span class="last-control">
+	<a href="#">
+	  <img src="../../assets/images/go-last.png">
+	</a>
+      </span>
+    </span>
+    <div class="slide-end">&nbsp;<br></div> <!-- hack -->
+  </div>
+<div class="content">
+<section data-coord="dom.umt:1:0"><h1 data-coord="dom.umt:1:0">Document Object Model</h1><section class="umt-slide" data-coord="dom.umt:4:0"><h2 data-coord="dom.umt:4:0">Overview</h2><ul data-coord="dom.umt:7:0"><li data-coord="dom.umt:7:0"><p data-coord="dom.umt:7:4">The <strong data-coord="dom.umt:7:8">Document Object Model</strong> (DOM) is a programming interface for
+HTML or XML documents.
+</p></li><li data-coord="dom.umt:10:0"><p data-coord="dom.umt:10:4">Models document as a tree of nodes.
+</p></li><li data-coord="dom.umt:12:0"><p data-coord="dom.umt:12:4">Nodes can contain text and other nodes.
+</p></li><li data-coord="dom.umt:14:0"><p data-coord="dom.umt:14:4">Nodes can have attributes which include style and behavior
+attributes.
+</p></li><li data-coord="dom.umt:17:0"><p data-coord="dom.umt:17:4">Possible to get all nodes of a particular type, specific <samp data-coord="dom.umt:17:61">class</samp>
+or <samp data-coord="dom.umt:17:76">id</samp>.
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:21:0"><h2 data-coord="dom.umt:21:0">Document Object Model</h2><ul data-coord="dom.umt:24:0"><li data-coord="dom.umt:24:0"><p data-coord="dom.umt:24:4">API to access parsed HTML/XML documents.
+</p></li><li data-coord="dom.umt:26:0"><p data-coord="dom.umt:26:4">Can be used from any language, but within browsers the only language
+commonly supported currently is JavaScript.
+</p></li><li data-coord="dom.umt:29:0"><p data-coord="dom.umt:29:4">Datatypes include <samp data-coord="dom.umt:29:22">document</samp>, <samp data-coord="dom.umt:29:34">element</samp>, <samp data-coord="dom.umt:29:45">attribute</samp>.
+</p></li><li data-coord="dom.umt:31:0"><p data-coord="dom.umt:31:4">Global element is <samp data-coord="dom.umt:31:22">window</samp>.
+</p></li><li data-coord="dom.umt:33:0"><p data-coord="dom.umt:33:4">All properties of <samp data-coord="dom.umt:33:22">window</samp> object also available as global
+variables.
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:36:0"><h2 data-coord="dom.umt:36:0">Document</h2><ul data-coord="dom.umt:39:0"><li data-coord="dom.umt:39:0"><p data-coord="dom.umt:39:4">Current document available as <samp data-coord="dom.umt:39:34">document</samp> property of global
+<samp data-coord="dom.umt:39:68">window</samp> object.  Hence available simply as <samp data-coord="dom.umt:39:112">document</samp>.
+</p></li><li data-coord="dom.umt:42:0"><p data-coord="dom.umt:42:4">Properties include <samp data-coord="dom.umt:42:23">location</samp> (URL, giving <samp data-coord="dom.umt:42:47">href</samp>, <samp data-coord="dom.umt:42:55">protocol</samp>,
+<samp data-coord="dom.umt:42:71">hostname</samp>, <samp data-coord="dom.umt:42:83">port</samp>, <samp data-coord="dom.umt:42:91">pathname</samp>, <samp data-coord="dom.umt:42:103">search</samp>, <samp data-coord="dom.umt:42:113">hash</samp>), <samp data-coord="dom.umt:42:122">contentType</samp>,
+<samp data-coord="dom.umt:42:141">body</samp>, <samp data-coord="dom.umt:42:149">cookie</samp> (cookie defs separated by <samp data-coord="dom.umt:42:184">;</samp>).
+</p></li><li data-coord="dom.umt:47:0"><p data-coord="dom.umt:47:4">Methods include <samp data-coord="dom.umt:47:20">getElementsByTagName()</samp>, <samp data-coord="dom.umt:47:46">getElementsByName()</samp>,
+<samp data-coord="dom.umt:47:73">getElementById()</samp>, <samp data-coord="dom.umt:47:93">getElementsByClassName()</samp>, <samp data-coord="dom.umt:47:121">querySelector()</samp>,
+<samp data-coord="dom.umt:47:144">querySelectorAll()</samp>.
+</p></li><li data-coord="dom.umt:51:0"><p data-coord="dom.umt:51:4">Allows updating document content dynamically <em data-coord="dom.umt:51:49">Dynamic HTML</em> (DHTML).
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:54:0"><h2 data-coord="dom.umt:54:0">Element</h2><ul data-coord="dom.umt:58:0"><li data-coord="dom.umt:58:0"><p data-coord="dom.umt:58:4">Represents an individual HTML element.
+</p></li><li data-coord="dom.umt:60:0"><p data-coord="dom.umt:60:4">Properties include <samp data-coord="dom.umt:60:23">id</samp>, <samp data-coord="dom.umt:60:29">classList</samp>, <samp data-coord="dom.umt:60:42">innerHTML</samp> (markup within
+element), <samp data-coord="dom.umt:60:83">attributes</samp> (map <samp data-coord="dom.umt:60:101">NamedNodeMap</samp> of attributes).
+</p></li><li data-coord="dom.umt:63:0"><p data-coord="dom.umt:63:4">Methods include <samp data-coord="dom.umt:63:20">getAttribute()</samp>, <samp data-coord="dom.umt:63:38">getAttributeNames()</samp>,
+<samp data-coord="dom.umt:63:65">removeAttribute()</samp>, <samp data-coord="dom.umt:63:86">setAttribute()</samp>.
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:71:0"><h2 data-coord="dom.umt:71:0">Stylesheets</h2><ul data-coord="dom.umt:74:0"><li data-coord="dom.umt:74:0"><p data-coord="dom.umt:74:4">Current best practice is to relegate presentation to stylesheets.
+</p></li><li data-coord="dom.umt:76:0"><p data-coord="dom.umt:76:4">Can be specified using <strong data-coord="dom.umt:76:27">external</strong> stylesheets, using <samp data-coord="dom.umt:76:57">&lt;link&gt;</samp>
+elements. 
+</p></li><li data-coord="dom.umt:79:0"><p data-coord="dom.umt:79:4">Can also be specified using <strong data-coord="dom.umt:79:32">internal</strong> stylesheets using <samp data-coord="dom.umt:79:61">&lt;style&gt;</samp>
+elements.
+</p></li><li data-coord="dom.umt:82:0"><p data-coord="dom.umt:82:4">Can also be specified <strong data-coord="dom.umt:82:26">inline</strong> for an individual element using
+<samp data-coord="dom.umt:82:71">style</samp> attribute.
+</p></li><li data-coord="dom.umt:85:0"><p data-coord="dom.umt:85:4">Precedence (in descending order) inline, internal, external.
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:89:0"><h2 data-coord="dom.umt:89:0">Cascading Style Sheets</h2><ul data-coord="dom.umt:92:0"><li data-coord="dom.umt:92:0"><p data-coord="dom.umt:92:4"><em data-coord="dom.umt:92:4">Cascading Style Sheets</em> (CSS) specifies priority rules (cascade)
+between different style declarations which may apply to a
+element.
+</p></li><li data-coord="dom.umt:96:0"><p data-coord="dom.umt:96:4">A CSS stylesheet consists of a set of rules.
+</p></li><li data-coord="dom.umt:98:0"><p data-coord="dom.umt:98:4">A rule consists of a selector followed by a brace delimited 
+set of CSS declarations separated by <samp data-coord="dom.umt:98:106">;</samp>.
+</p><pre>    p <span class="hl opt">.</span>highlight <span class="hl opt">{</span>
+     <span class="hl kwa">background-color</span><span class="hl opt">:</span> yellow<span class="hl opt">;</span>
+     <span class="hl kwa">color</span><span class="hl opt">:</span> blue
+    <span class="hl opt">}</span></pre></li><li data-coord="dom.umt:109:0"><p data-coord="dom.umt:109:4">Will not cover CSS declarations.
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:111:0"><h2 data-coord="dom.umt:111:0">Simple CSS Selectors</h2><dl data-coord="dom.umt:114:0"><dt data-coord="dom.umt:114:2"> Universal Selector </dt><dd data-coord="dom.umt:115:0"><p data-coord="dom.umt:115:4"><samp data-coord="dom.umt:115:4">*</samp> selects all elements; usually used in conjunction with other
+selectors.
+</p></dd><dt data-coord="dom.umt:118:2"> HTML Element Names </dt><dd data-coord="dom.umt:119:0"><p data-coord="dom.umt:119:4">Simply specify name of HTML element.  Examples <samp data-coord="dom.umt:119:51">p</samp>, <samp data-coord="dom.umt:119:56">a</samp>, <samp data-coord="dom.umt:119:61">table</samp>.
+</p></dd><dt data-coord="dom.umt:121:2"> Class Selectors </dt><dd data-coord="dom.umt:122:0"><p data-coord="dom.umt:122:4">Name of class preceeded by a <samp data-coord="dom.umt:122:33">.</samp>.  Examples <samp data-coord="dom.umt:122:48">.highlight</samp>, <samp data-coord="dom.umt:122:62">.important</samp>.
+</p></dd><dt data-coord="dom.umt:124:2"> ID Selectors </dt><dd data-coord="dom.umt:125:0"><p data-coord="dom.umt:125:4">ID of element preceeded by <samp data-coord="dom.umt:125:31">#</samp>.  Examples include <samp data-coord="dom.umt:125:54">#form1</samp>, <samp data-coord="dom.umt:125:64">#table1</samp>.
+Note that ID must be unique in document.
+</p></dd><dt data-coord="dom.umt:128:2"> <samp data-coord="dom.umt:128:1">[attr]</samp> </dt><dd data-coord="dom.umt:129:0"><p data-coord="dom.umt:129:4">Selects all elements having attribute <samp data-coord="dom.umt:129:42">attr</samp>.  Examples <samp data-coord="dom.umt:129:60">[href]</samp>,
+</p></dd></dl></section><section class="umt-slide" data-coord="dom.umt:132:0"><h2 data-coord="dom.umt:132:0">Combining Selectors</h2><dl data-coord="dom.umt:135:0"><dt data-coord="dom.umt:135:2"> Constrain </dt><dd data-coord="dom.umt:136:0"><p data-coord="dom.umt:136:4">Can follow selector by class or id selectors (without spaces).  
+<samp data-coord="dom.umt:136:73">p.chemical</samp> matches <samp data-coord="dom.umt:136:94">p</samp> elements having class <samp data-coord="dom.umt:136:120">chemical</samp>.
+</p></dd><dt data-coord="dom.umt:139:2"> Descendent </dt><dd data-coord="dom.umt:140:0"><p data-coord="dom.umt:140:4">Simply write selectors adjacent to each other separated by a
+space.  Example: <samp data-coord="dom.umt:140:86">.chemical p</samp> selects all <samp data-coord="dom.umt:140:112">p</samp> elements which are
+descendents of a element which has class <samp data-coord="dom.umt:140:180">chemical</samp>.
+</p></dd><dt data-coord="dom.umt:144:2"> Child </dt><dd data-coord="dom.umt:145:0"><p data-coord="dom.umt:145:4">Write selectors separated by a <samp data-coord="dom.umt:145:35">&gt;</samp>.  Example: <samp data-coord="dom.umt:145:50">.chemical &gt; p</samp>
+selects all <samp data-coord="dom.umt:145:82">p</samp> elements which are direct children of a element which
+has class <samp data-coord="dom.umt:145:154">chemical</samp>.
+</p></dd></dl></section><section class="umt-slide" data-coord="dom.umt:149:0"><h2 data-coord="dom.umt:149:0">Combining Selectors Continued</h2><dl data-coord="dom.umt:152:0"><dt data-coord="dom.umt:152:2"> Sibling </dt><dd data-coord="dom.umt:153:0"><p data-coord="dom.umt:153:4">Write selectors separated by a <samp data-coord="dom.umt:153:35">~</samp>.  Example: <samp data-coord="dom.umt:153:50">.chemical ~ p</samp>
+selects all <samp data-coord="dom.umt:153:82">p</samp> elements which follow (not necessarily
+immediately) a element which has class <samp data-coord="dom.umt:153:168">chemical</samp>.
+</p></dd><dt data-coord="dom.umt:157:2"> Adjacent Sibling </dt><dd data-coord="dom.umt:158:0"><p data-coord="dom.umt:158:4">Write selectors separated by a <samp data-coord="dom.umt:158:35">+</samp>.  Example: <samp data-coord="dom.umt:158:50">.chemical + p</samp>
+selects all <samp data-coord="dom.umt:158:82">p</samp> elements which immediately follow a element which
+has class <samp data-coord="dom.umt:158:150">chemical</samp>.
+</p></dd></dl></section><section class="umt-slide" data-coord="dom.umt:165:0"><h2 data-coord="dom.umt:165:0">Unobstrusive JavaScript</h2><p data-coord="dom.umt:168:0">Different technologies used for different concerns:
+</p><dl data-coord="dom.umt:170:0"><dt data-coord="dom.umt:170:2">Content</dt><dd data-coord="dom.umt:171:0"><p data-coord="dom.umt:171:4">HTML used for content.
+</p></dd><dt data-coord="dom.umt:173:2">Presentation</dt><dd data-coord="dom.umt:174:0"><p data-coord="dom.umt:174:4">CSS used for styling.
+</p></dd><dt data-coord="dom.umt:176:2">Behavior</dt><dd data-coord="dom.umt:177:0"><p data-coord="dom.umt:177:4">JavaScript used to specify behavior.
+</p></dd></dl><ul data-coord="dom.umt:179:0"><li data-coord="dom.umt:179:0"><p data-coord="dom.umt:179:4">Do not mix technologies.
+</p></li><li data-coord="dom.umt:181:0"><p data-coord="dom.umt:181:4">Best practice is to split out into separate <samp data-coord="dom.umt:181:48">*.html</samp>, <samp data-coord="dom.umt:181:58">*.css</samp> and
+<samp data-coord="dom.umt:181:74">*.js</samp> files.
+</p></li><li data-coord="dom.umt:184:0"><p data-coord="dom.umt:184:4">Modern technology blurs lines between concerns; CSS 3 contains
+support for visual behavior traditionally achieved using JavaScript.
+Nevertheless it remains a good organizational principle.
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:189:0"><h2 data-coord="dom.umt:189:0">Bad Code</h2><p data-coord="dom.umt:192:0">In <samp data-coord="dom.umt:192:3">doc.html</samp>:
+</p><pre data-coord="dom.umt:195:0">  &lt;a href="submit.cgi"
+     onClick="checkForm(this)"
+     style="font-weight: bold"&gt;
+    Submit
+  &lt;/a&gt;
+</pre><ul data-coord="dom.umt:202:0"><li data-coord="dom.umt:202:0"><p data-coord="dom.umt:202:4">Uses CSS and JavaScript code within attributes of HTML elements.
+</p></li><li data-coord="dom.umt:204:0"><p data-coord="dom.umt:204:4">Maintaining file will require content, presentational and programming
+skills.
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:208:0"><h2 data-coord="dom.umt:208:0">Better Code</h2><ol data-coord="dom.umt:211:0"><li data-coord="dom.umt:211:0"><p data-coord="dom.umt:211:3">In <samp data-coord="dom.umt:211:6">doc.html</samp> maintained by content specialist or a <em data-coord="dom.umt:211:55">Content Management
+   System</em> (CMS):`&lt;a href="submit.cgi" id="submit"&gt;Submit&lt;/a&gt;`.
+</p></li><li data-coord="dom.umt:214:0"><p data-coord="dom.umt:214:3">In <samp data-coord="dom.umt:214:6">doc.css</samp> maintained by web designer <samp data-coord="dom.umt:214:43">#submit { font-weight: bold; }</samp>.
+</p></li><li data-coord="dom.umt:216:0"><p data-coord="dom.umt:216:3">In <samp data-coord="dom.umt:216:6">doc.js</samp> maintained by front-end programmer:
+<samp data-coord="dom.umt:216:54">document.getElementById('submit').onclick(checkForm(this))</samp>.
+</p></li></ol><ul data-coord="dom.umt:219:0"><li data-coord="dom.umt:219:0"><p data-coord="dom.umt:219:3">Separate concerns, separate files, separate specialists.
+</p></li><li data-coord="dom.umt:221:0"><p data-coord="dom.umt:221:3"><samp data-coord="dom.umt:221:3">doc.html</samp> will need to reference <samp data-coord="dom.umt:221:37">doc.css</samp> stylesheet and <samp data-coord="dom.umt:221:62">doc.js</samp>.
+</p></li><li data-coord="dom.umt:223:0"><p data-coord="dom.umt:223:3">In practice, single <samp data-coord="dom.umt:223:23">.css</samp> stylesheet, <samp data-coord="dom.umt:223:42">.js</samp> file shared by multiple
+html documents.
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:226:0"><h2 data-coord="dom.umt:226:0">Playing with the DOM</h2><p data-coord="dom.umt:229:0"><a href="code/dom-play/dom-play.html" data-coord="dom.umt:229:31">dom-play.html</a>
+</p></section><section class="umt-slide" data-coord="dom.umt:233:0"><h2 data-coord="dom.umt:233:0">Events</h2><ul data-coord="dom.umt:236:0"><li data-coord="dom.umt:236:0"><p data-coord="dom.umt:236:4">When browser events (like key presses, mouse clicks, page loads)
+occur, browser calls a <strong data-coord="dom.umt:236:96">event handler</strong>.
+</p></li><li data-coord="dom.umt:239:0"><p data-coord="dom.umt:239:4">Historically, different browsers had different ideas of how
+a event was propagated between an element and its containing
+elements.
+</p></li><li data-coord="dom.umt:243:0"><p data-coord="dom.umt:243:4">DOM level 0 allows you to assign a <strong data-coord="dom.umt:243:39">single</strong> handler to each event
+for an element using syntax like <samp data-coord="dom.umt:243:107">element.onclick =
+    function(event) { ... }</samp>.  Problematic in that different scripts
+may each try to add handlers for the same event.
+</p></li><li data-coord="dom.umt:248:0"><p data-coord="dom.umt:248:4">In DOM level 0 event bubbles up from leaf element on which event
+occurs to its parent all the way up the DOM tree.
+</p></li><li data-coord="dom.umt:251:0"><p data-coord="dom.umt:251:4">DOM level 2 event model has a <em data-coord="dom.umt:251:34">capture phase</em> (before <em data-coord="dom.umt:251:58">bubble phase</em>)
+where event propagated down from the top level of the DOM tree
+to the leaf element causing the event.
+</p></li><li data-coord="dom.umt:255:0"><p data-coord="dom.umt:255:4">DOM level 2 allows adding <strong data-coord="dom.umt:255:30">multiple</strong> handers for an event
+using <samp data-coord="dom.umt:255:72">addEventListener(eventType, handler, useCapture)</samp>.
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:259:0"><h2 data-coord="dom.umt:259:0">Some DOM Events</h2><p data-coord="dom.umt:262:0"><a href="https://developer.mozilla.org/en-US/docs/Web/Events" data-coord="dom.umt:262:55">MDN</a>
+</p><ul data-coord="dom.umt:264:0"><li data-coord="dom.umt:264:0"><p data-coord="dom.umt:264:4"><samp data-coord="dom.umt:264:4">DOMContentLoaded</samp>: Initial HTML document loaded and parsed;
+stylesheets, images, asynchronous scripts may still be loading.
+</p></li><li data-coord="dom.umt:267:0"><p data-coord="dom.umt:267:4"><samp data-coord="dom.umt:267:4">load</samp>: complete document, including all dependent resources
+have been loaded.
+</p></li><li data-coord="dom.umt:270:0"><p data-coord="dom.umt:270:4"><strong data-coord="dom.umt:270:4">Focus events</strong> <samp data-coord="dom.umt:270:19">focus</samp>, <samp data-coord="dom.umt:270:28">blur</samp>.
+</p></li><li data-coord="dom.umt:272:0"><p data-coord="dom.umt:272:4"><samp data-coord="dom.umt:272:4">submit</samp>: a form is being submitted.
+</p></li><li data-coord="dom.umt:274:0"><p data-coord="dom.umt:274:4"><strong data-coord="dom.umt:274:4">Keyboard events</strong>: <samp data-coord="dom.umt:274:23">keydown</samp>, <samp data-coord="dom.umt:274:34">keyup</samp>, <samp data-coord="dom.umt:274:43">keypressed</samp>; the last
+fires continuously.
+</p></li><li data-coord="dom.umt:277:0"><p data-coord="dom.umt:277:4"><strong data-coord="dom.umt:277:4">Mouse events</strong> <samp data-coord="dom.umt:277:19">click</samp>, <samp data-coord="dom.umt:277:28">dblclick</samp>, <samp data-coord="dom.umt:277:40">contextmenu</samp>, <samp data-coord="dom.umt:277:55">mouseenter</samp>,
+<samp data-coord="dom.umt:277:73">mouseleave</samp>, <samp data-coord="dom.umt:277:87">mousemove</samp> (fires continuously), <samp data-coord="dom.umt:277:121">mouseover</samp>,
+<samp data-coord="dom.umt:277:138">mouseout</samp>, <samp data-coord="dom.umt:277:150">mousedown</samp>, <samp data-coord="dom.umt:277:163">mouseup</samp>,
+</p></li><li data-coord="dom.umt:281:0"><p data-coord="dom.umt:281:4"><samp data-coord="dom.umt:281:4">change</samp>: value of some <samp data-coord="dom.umt:281:28">&lt;input&gt;</samp>, <samp data-coord="dom.umt:281:39">&lt;select&gt;</samp> or <samp data-coord="dom.umt:281:53">&lt;textarea&gt;</samp>
+element has been changed by the user.
+</p></li></ul></section><section class="umt-slide" data-coord="dom.umt:285:0"><h2 data-coord="dom.umt:285:0">Handler Function</h2><ul data-coord="dom.umt:288:0"><li data-coord="dom.umt:288:0"><p data-coord="dom.umt:288:4">Within handler function <samp data-coord="dom.umt:288:28">this</samp> is set to the DOM element on which
+the handler was registered.
+</p></li><li data-coord="dom.umt:291:0"><p data-coord="dom.umt:291:4">First argument is an <samp data-coord="dom.umt:291:25">Event</samp> object with properties like:
+</p><ul data-coord="dom.umt:293:0"><li data-coord="dom.umt:293:0"><p data-coord="dom.umt:293:8"><samp data-coord="dom.umt:293:8">target</samp>: DOM element on which the event was dispatched.
+</p></li><li data-coord="dom.umt:295:0"><p data-coord="dom.umt:295:8"><samp data-coord="dom.umt:295:8">type</samp>: Name of event.
+</p></li><li data-coord="dom.umt:297:0"><p data-coord="dom.umt:297:8">For keyboard events <samp data-coord="dom.umt:297:28">key</samp>: value of active key.
+</p></li><li data-coord="dom.umt:299:0"><p data-coord="dom.umt:299:8">For mouse events, properties <samp data-coord="dom.umt:299:37">client[XY]</samp>, <samp data-coord="dom.umt:299:51">offset[XY]</samp>,
+<samp data-coord="dom.umt:299:73">page[XY]</samp>: coordinates of mouse pointer in local coordinates,
+relative to target node, relative to entire document.
+</p></li><li data-coord="dom.umt:303:0"><p data-coord="dom.umt:303:8"><samp data-coord="dom.umt:303:8">preventDefault()</samp>: calling this function cancels event.
+</p></li><li data-coord="dom.umt:305:0"><p data-coord="dom.umt:305:9"><samp data-coord="dom.umt:305:9">stopPropagation()</samp>: prevents propagation of event.
+</p></li></ul></li></ul><p data-coord="dom.umt:307:0"><em data-coord="dom.umt:307:25"><a href="code/events-play.html" data-coord="dom.umt:307:25">events play</a></em>
+</p></section></section>
+</div> <!-- #content -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../../assets/scripts/slide-controls.js"></script>
+<script src="../../assets/scripts/loginAction.js"></script>
+</body>
+</html>

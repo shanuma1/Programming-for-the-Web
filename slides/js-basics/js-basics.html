@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang='en-US'>
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../../assets/styles/article.css" rel="stylesheet" type="text/css" />
+  <title>CS 544: JavaScript Basics</title>
+<link href="js-basics/hl-fine_blue.css" rel="stylesheet"/>
+</head>
+<body>
+    <nav>
+      <ul>
+	<li><a href="../../index.html" class="material-icons">house</a></li>
+	<li><a href="../../docs/index.html">Docs</a></li>
+	<li><a href="../../exams-quizzes/index.html">Exams &amp; Quizzes</a></li>
+	<li><a href="../../exercises/index.html">Exercises</a></li>
+	<li><a href="../../hws/index.html">Homeworks</a></li>
+	<li><a href="../../misc/index.html">Misc</a></li>
+	<li><a href="../../projects/index.html">Projects</a></li>
+	<li><a href="../../slides/index.html">Slides</a></li>
+	<li><a id="loginAction"></a></li>
+      </ul>
+    </nav>
+  <div class="slide-controls" style="display: none;">
+    <span class="float-left">
+      <span class="first-control">
+	<a href="#">
+	  <img src="../../assets/images/go-first.png">
+	</a>
+      </span>
+      <span class="previous-control">
+	<a href="#">
+	  <img src="../../assets/images/go-previous.png">
+	</a>
+      </span>
+    </span>
+    <span class="float-right">
+      <span class="next-control">
+	<a href="#">
+	  <img src="../../assets/images/go-next.png">
+	</a>
+      </span>
+      <span class="last-control">
+	<a href="#">
+	  <img src="../../assets/images/go-last.png">
+	</a>
+      </span>
+    </span>
+    <div class="slide-end">&nbsp;<br></div> <!-- hack -->
+  </div>
+<div class="content">
+<section data-coord="js-basics.umt:1:0"><h1 data-coord="js-basics.umt:1:0">JavaScript Basics</h1><section class="umt-slide" data-coord="js-basics.umt:4:0"><h2 data-coord="js-basics.umt:4:0">Common JavaScript Data Types</h2><ul data-coord="js-basics.umt:7:0"><li data-coord="js-basics.umt:7:0"><p data-coord="js-basics.umt:7:4">Numbers (no integers).  Arithmetic based on 64-bit IEEE-754 standard.
+</p></li><li data-coord="js-basics.umt:9:0"><p data-coord="js-basics.umt:9:4">Strings.
+</p></li><li data-coord="js-basics.umt:11:0"><p data-coord="js-basics.umt:11:4"><samp data-coord="js-basics.umt:11:4">undefined</samp> and <samp data-coord="js-basics.umt:11:20">null</samp>.
+</p></li><li data-coord="js-basics.umt:13:0"><p data-coord="js-basics.umt:13:4">Booleans: <samp data-coord="js-basics.umt:13:14">true</samp> and <samp data-coord="js-basics.umt:13:25">false</samp>.  
+</p></li><li data-coord="js-basics.umt:15:0"><p data-coord="js-basics.umt:15:4">Objects (which include functions).
+</p></li></ul><p data-coord="js-basics.umt:17:0">Objects are non-primitive.  All other types are primitive types.
+</p></section><section class="umt-slide" data-coord="js-basics.umt:20:0"><h2 data-coord="js-basics.umt:20:0">Numbers</h2><p data-coord="js-basics.umt:23:0"><strong data-coord="js-basics.umt:23:0">No integers</strong> in early JS; problematic for financial calculations.
+</p><pre><span class="hl opt">$</span> nodejs 
+<span class="hl opt">&gt;</span> <span class="hl num">1</span><span class="hl opt">/</span><span class="hl num">0</span>
+Infinity
+<span class="hl opt">&gt;</span> <span class="hl num">0</span><span class="hl opt">/</span><span class="hl num">0</span>
+NaN
+<span class="hl opt">&gt;</span> NaN <span class="hl opt">===</span> NaN <span class="hl slc">//IEEE behavior; in other languages too</span>
+<span class="hl kwa">false</span>
+<span class="hl opt">&gt;</span> <span class="hl num">2</span><span class="hl opt">**</span><span class="hl num">53</span>  <span class="hl slc">//** is exponentiation operator</span>
+<span class="hl num">9007199254740992</span>
+<span class="hl opt">&gt;</span> <span class="hl num">2</span><span class="hl opt">**</span><span class="hl num">53</span> <span class="hl opt">+</span> <span class="hl num">1</span>
+<span class="hl num">9007199254740992</span>  <span class="hl slc">//IEEE 64 bit floats have a 53-bit mantissa.</span>
+<span class="hl opt">&gt; (</span><span class="hl num">2</span><span class="hl opt">**</span><span class="hl num">53</span> <span class="hl opt">+</span> <span class="hl num">1</span><span class="hl opt">) ===</span> <span class="hl num">2</span><span class="hl opt">**</span><span class="hl num">53</span>
+<span class="hl kwa">true</span>
+<span class="hl opt">&gt;</span> <span class="hl kwd">BigInt</span><span class="hl opt">(</span><span class="hl num">2</span><span class="hl opt">**</span><span class="hl num">53</span><span class="hl opt">) +</span> <span class="hl num">1</span>n <span class="hl slc">//exact big integers</span>
+<span class="hl num">9007199254740993</span>n</pre></section><section class="umt-slide" data-coord="js-basics.umt:44:0"><h2 data-coord="js-basics.umt:44:0">Normal Arithmetic and Bitwise Operators</h2><ul data-coord="js-basics.umt:47:0"><li data-coord="js-basics.umt:47:0"><p data-coord="js-basics.umt:47:4">Usual <em data-coord="js-basics.umt:47:110"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators" data-coord="js-basics.umt:47:110">arithmetic operators</a></em> <samp data-coord="js-basics.umt:47:133">+</samp> (both infix and prefix), <samp data-coord="js-basics.umt:47:162">-</samp>
+(both infix and prefix), <samp data-coord="js-basics.umt:47:195">*</samp>, <samp data-coord="js-basics.umt:47:200">/</samp> and <samp data-coord="js-basics.umt:47:208">%</samp> (remainder, <strong data-coord="js-basics.umt:47:224">has
+    sign of dividend</strong>), <samp data-coord="js-basics.umt:47:253">**</samp> (power).
+</p></li><li data-coord="js-basics.umt:51:0"><p data-coord="js-basics.umt:51:4"><em data-coord="js-basics.umt:51:101"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators" data-coord="js-basics.umt:51:101">Bitwise operators</a></em> <samp data-coord="js-basics.umt:51:121">&amp;</samp>, <samp data-coord="js-basics.umt:51:126">|</samp>, <samp data-coord="js-basics.umt:51:131">^</samp>, <samp data-coord="js-basics.umt:51:136">~</samp>, <samp data-coord="js-basics.umt:51:141">&lt;&lt;</samp>, <samp data-coord="js-basics.umt:51:147">&gt;&gt;</samp> (arith), <samp data-coord="js-basics.umt:51:161">&gt;&gt;&gt;</samp>
+(logical).
+</p></li><li data-coord="js-basics.umt:54:0"><p data-coord="js-basics.umt:54:4">Bitwise operators always work with 32-bit 2's-complement integers.
+</p></li><li data-coord="js-basics.umt:56:0"><p data-coord="js-basics.umt:56:4">Previous property used in <a href="http://asmjs.org/" data-coord="js-basics.umt:56:51">asm.js</a> to obtain
+access to more efficient machine integer operations.
+</p></li></ul></section><section class="umt-slide" data-coord="js-basics.umt:59:0"><h2 data-coord="js-basics.umt:59:0">Arithmetic Operators Examples</h2><pre><span class="hl opt">&gt;</span> <span class="hl num">123</span>_456<span class="hl opt">*</span><span class="hl num">2</span>        <span class="hl slc">//&apos;_&apos; allowed for readability</span>
+<span class="hl num">246912</span>
+<span class="hl opt">&gt; -</span><span class="hl num">77</span><span class="hl opt">%</span><span class="hl num">13</span>           <span class="hl slc">//% has sign of dividend</span>
+<span class="hl opt">-</span><span class="hl num">12</span>
+<span class="hl opt">&gt;</span> <span class="hl num">77</span><span class="hl opt">%-</span><span class="hl num">13</span>
+<span class="hl num">12</span>
+<span class="hl opt">&gt;</span> <span class="hl num">2</span><span class="hl opt">**</span><span class="hl num">2</span><span class="hl opt">**</span><span class="hl num">3</span>          <span class="hl slc">//** is right associative</span>
+<span class="hl num">256</span>
+<span class="hl opt">&gt; (</span><span class="hl num">2</span><span class="hl opt">**</span><span class="hl num">2</span><span class="hl opt">)**</span><span class="hl num">3</span>
+<span class="hl num">64</span>
+<span class="hl opt">&gt;</span> <span class="hl num">18</span><span class="hl opt">*</span><span class="hl num">2</span> <span class="hl opt">+</span> <span class="hl num">77</span><span class="hl opt">%</span><span class="hl num">13</span> <span class="hl opt">/</span> <span class="hl num">2</span> <span class="hl slc">//other binary operators left associative</span>
+<span class="hl num">42</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:77:0"><h2 data-coord="js-basics.umt:77:0">Bitwise Operators Examples</h2><pre><span class="hl opt">&gt;</span> <span class="hl num">1</span> <span class="hl opt">|</span> <span class="hl num">2</span>      <span class="hl slc">//bitwise-or</span>
+<span class="hl num">3</span>
+<span class="hl opt">&gt;</span> <span class="hl num">0x99</span> <span class="hl opt">&amp;</span> <span class="hl num">0x3</span> <span class="hl slc">//bitwise-and; hex notation</span>
+<span class="hl num">1</span>
+<span class="hl opt">&gt;</span> <span class="hl num">5</span> <span class="hl opt">^</span> <span class="hl num">7</span>      <span class="hl slc">//bitwise-xor</span>
+<span class="hl num">2</span>
+<span class="hl opt">&gt; ~</span><span class="hl num">0</span>         <span class="hl slc">//bitwise-complement</span>
+<span class="hl opt">-</span><span class="hl num">1</span>           <span class="hl slc">//0xffffffff is -1</span>
+<span class="hl opt">&gt;</span> <span class="hl num">3</span> <span class="hl opt">&lt;&lt;</span> <span class="hl num">4</span>     <span class="hl slc">//left-shift</span>
+<span class="hl num">48</span>           <span class="hl slc">//x &lt;&lt; n === x * 2**n</span>
+<span class="hl opt">&gt;</span> <span class="hl num">100</span> <span class="hl opt">&gt;&gt;</span> <span class="hl num">3</span>   <span class="hl slc">//arithmetic right-shift</span>
+<span class="hl num">12</span>           <span class="hl slc">// x&gt;&gt; n === x / 2**n</span>
+<span class="hl opt">&gt;</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:97:0"><h2 data-coord="js-basics.umt:97:0">More on Shift Operators</h2><ul data-coord="js-basics.umt:100:0"><li data-coord="js-basics.umt:100:0"><p data-coord="js-basics.umt:100:4">Shift operators can be used to multiply (left-shift) and
+divide (right-shift) by powers-of-2.
+</p></li><li data-coord="js-basics.umt:103:0"><p data-coord="js-basics.umt:103:4">Distinguish between <samp data-coord="js-basics.umt:103:24">&gt;&gt;</samp> (sign-propagating or arithmetic
+right-shift) and <samp data-coord="js-basics.umt:103:82">&gt;&gt;&gt;</samp> (zero-fill or logical right-shift).  No
+difference for non-negative numbers, but different results for
+negative numbers:
+</p></li></ul><pre><span class="hl opt">&gt; -</span><span class="hl num">9</span> <span class="hl opt">&gt;&gt;</span> <span class="hl num">1</span>
+<span class="hl opt">-</span><span class="hl num">5</span>
+<span class="hl opt">&gt; -</span><span class="hl num">9</span> <span class="hl opt">&gt;&gt;&gt;</span> <span class="hl num">1</span>
+<span class="hl num">2147483643</span>
+<span class="hl opt">&gt; (-</span><span class="hl num">9</span> <span class="hl opt">&gt;&gt;&gt;</span> <span class="hl num">1</span><span class="hl opt">).</span><span class="hl kwd">toString</span><span class="hl opt">(</span><span class="hl num">16</span><span class="hl opt">)</span>
+<span class="hl str">&apos;7ffffffb&apos;</span>
+<span class="hl opt">&gt;</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:118:0"><h2 data-coord="js-basics.umt:118:0">Strings</h2><ul data-coord="js-basics.umt:121:0"><li data-coord="js-basics.umt:121:0"><p data-coord="js-basics.umt:121:4"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" data-coord="js-basics.umt:121:95">Strings</a> are immutable.
+</p></li><li data-coord="js-basics.umt:123:0"><p data-coord="js-basics.umt:123:4">Classically, string literals are delimited using either double
+quotes <samp data-coord="js-basics.umt:123:78">"</samp> or single quotes <samp data-coord="js-basics.umt:123:99">'</samp>.  Prefer <samp data-coord="js-basics.umt:123:112">'</samp> delimiters since
+easier to type on normal keyboards.  Backslashes interpreted as
+usual. Cannot span multiple lines.
+</p></li></ul><pre><span class="hl opt">&gt;</span> <span class="hl str">&apos;a&apos;</span> <span class="hl opt">+</span> <span class="hl str">&apos;b&apos;</span>    <span class="hl slc">//string concatenation</span>
+<span class="hl str">&apos;ab&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;abc&apos;</span><span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]</span>     <span class="hl slc">//indexing: results in string of length 1</span>
+<span class="hl str">&apos;b&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;hello world&apos;</span><span class="hl opt">.</span><span class="hl kwd">indexOf</span><span class="hl opt">(</span><span class="hl str">&apos;o&apos;</span><span class="hl opt">)</span>
+<span class="hl num">4</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;hello world&apos;</span><span class="hl opt">.</span><span class="hl kwd">lastIndexOf</span><span class="hl opt">(</span><span class="hl str">&apos;o&apos;</span><span class="hl opt">)</span>
+<span class="hl num">7</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;hello world&apos;</span><span class="hl opt">.</span><span class="hl kwd">substr</span><span class="hl opt">(</span><span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">)</span>  <span class="hl slc">//args: (startIndex, length)</span>
+<span class="hl str">&apos;lo w&apos;</span>                        <span class="hl slc">//treat as legacy function</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:141:0"><h2 data-coord="js-basics.umt:141:0">Strings Continued</h2><pre><span class="hl opt">&gt;</span> <span class="hl str">&apos;hello world&apos;</span><span class="hl opt">.</span><span class="hl kwd">substring</span><span class="hl opt">(</span><span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">)</span> <span class="hl slc">//args:(startIndex, endIndex)</span>
+<span class="hl str">&apos;l&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;hello world&apos;</span><span class="hl opt">.</span><span class="hl kwd">slice</span><span class="hl opt">(</span><span class="hl num">6</span><span class="hl opt">)</span>
+<span class="hl str">&apos;world&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;hello world&apos;</span><span class="hl opt">.</span><span class="hl kwd">slice</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">)</span> <span class="hl slc">//args: (startIndex, endIndex)</span>
+<span class="hl str">&apos;ell&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;hello world&apos;</span><span class="hl opt">.</span><span class="hl kwd">slice</span><span class="hl opt">(-</span><span class="hl num">3</span><span class="hl opt">)</span> <span class="hl slc">//index from right; -1 is rightmost</span>
+<span class="hl str">&apos;rld&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;hello world&apos;</span><span class="hl opt">.</span><span class="hl kwd">slice</span><span class="hl opt">(-</span><span class="hl num">3</span><span class="hl opt">, -</span><span class="hl num">1</span><span class="hl opt">)</span>
+<span class="hl str">&apos;rl&apos;</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:159:0"><h2 data-coord="js-basics.umt:159:0">Template String Literals</h2><p data-coord="js-basics.umt:162:0">Enclosed within back-quotes <samp data-coord="js-basics.umt:162:28">`</samp>.  Relatively new addition.  Can
+contain direct newlines.  All popular scripting languages have similar
+concepts (though introduced relatively recently to Python).
+</p><pre><span class="hl opt">&gt;</span> <span class="hl kwa">const</span> x <span class="hl opt">=</span> <span class="hl num">22</span>
+<span class="hl kwb">undefined</span>
+<span class="hl opt">&gt;</span> <span class="hl str">`The answer is</span> <span class="hl ipl">${x + 20}</span><span class="hl str">`</span>
+<span class="hl str">&apos;The answer is 42&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl str">`Betty bought a bit of butter</span>
+<span class="hl str">... `</span>
+<span class="hl str">&apos;Betty bought a bit of butter</span><span class="hl esc">\n</span><span class="hl str">&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl str">`Twas brillig and the slithy toves</span>
+<span class="hl str">... Did gyre and gimble in the wabe:`</span>
+<span class="hl str">&apos;Twas brillig and the slithy toves</span><span class="hl esc">\n</span><span class="hl str">Did gyre and gimble in the wabe:&apos;</span>
+<span class="hl opt">&gt;</span> </pre></section><section class="umt-slide" data-coord="js-basics.umt:181:0"><h2 data-coord="js-basics.umt:181:0"><samp data-coord="js-basics.umt:181:0">undefined</samp></h2><dl data-coord="js-basics.umt:185:0"><dt data-coord="js-basics.umt:185:2"><samp data-coord="js-basics.umt:185:3">undefined</samp></dt><dd data-coord="js-basics.umt:186:0"><p data-coord="js-basics.umt:186:5">Means lack of a value.
+</p><ul data-coord="js-basics.umt:188:0"><li data-coord="js-basics.umt:188:0"><p data-coord="js-basics.umt:188:7">Uninitialized variables are <samp data-coord="js-basics.umt:188:35">undefined</samp>.
+</p></li><li data-coord="js-basics.umt:190:0"><p data-coord="js-basics.umt:190:7">Missing parameters are <samp data-coord="js-basics.umt:190:30">undefined</samp>.
+</p></li><li data-coord="js-basics.umt:192:0"><p data-coord="js-basics.umt:192:7">Non-existent properties are <samp data-coord="js-basics.umt:192:35">undefined</samp>.
+</p></li><li data-coord="js-basics.umt:194:0"><p data-coord="js-basics.umt:194:7">Functions return <samp data-coord="js-basics.umt:194:24">undefined</samp> if no explicit return value.
+</p></li><li data-coord="js-basics.umt:196:0"><p data-coord="js-basics.umt:196:7">Use <samp data-coord="js-basics.umt:196:11">x === undefined</samp> to check if <samp data-coord="js-basics.umt:196:41">x</samp> is undefined.
+</p></li></ul></dd></dl></section><section class="umt-slide" data-coord="js-basics.umt:199:0"><h2 data-coord="js-basics.umt:199:0"><samp data-coord="js-basics.umt:199:0">undefined</samp> Continued</h2><pre>         <span class="hl opt">&gt;</span> <span class="hl kwa">let</span> x         <span class="hl slc">//statement</span>
+         <span class="hl kwb">undefined</span>       <span class="hl slc">//statement has no value</span>
+         <span class="hl opt">&gt;</span> x             <span class="hl slc">//expression</span>
+         <span class="hl kwb">undefined</span>       <span class="hl slc">//value of expression</span>
+         <span class="hl opt">&gt;</span> x <span class="hl opt">= {}</span>        <span class="hl slc">//assignment expr; empty object</span>
+         <span class="hl opt">{}</span>
+         <span class="hl opt">&gt;</span> x<span class="hl opt">.</span>a
+         <span class="hl kwb">undefined</span>
+         <span class="hl opt">&gt;</span> <span class="hl kwb">undefined</span>
+         <span class="hl kwb">undefined</span>
+         <span class="hl opt">&gt;</span> <span class="hl kwb">undefined</span> <span class="hl opt">=</span> <span class="hl num">1</span> <span class="hl slc">//not a reserved word</span>
+         <span class="hl num">1</span>
+         <span class="hl opt">&gt;</span> <span class="hl kwb">undefined</span>     <span class="hl slc">//immutable in global scope</span>
+         <span class="hl kwb">undefined</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:221:0"><h2 data-coord="js-basics.umt:221:0"><samp data-coord="js-basics.umt:221:0">null</samp></h2><p data-coord="js-basics.umt:224:0"><samp data-coord="js-basics.umt:224:0">null</samp> is a special value used to denote <em data-coord="js-basics.umt:224:41">no object</em>.
+</p><p data-coord="js-basics.umt:226:0">Can be used wherever an object is expected to indicate absence of
+an object.  Examples:
+</p><ul data-coord="js-basics.umt:229:0"><li data-coord="js-basics.umt:229:0"><p data-coord="js-basics.umt:229:4">Parameters.
+</p></li><li data-coord="js-basics.umt:231:0"><p data-coord="js-basics.umt:231:4">Last object in a object chain.
+</p></li><li data-coord="js-basics.umt:233:0"><p data-coord="js-basics.umt:233:4">Use <samp data-coord="js-basics.umt:233:8">x === null</samp> to check if <samp data-coord="js-basics.umt:233:33">x</samp> is null.
+</p></li></ul></section><section class="umt-slide" data-coord="js-basics.umt:236:0"><h2 data-coord="js-basics.umt:236:0"><samp data-coord="js-basics.umt:236:0">typeof</samp></h2><p data-coord="js-basics.umt:239:0">Operator <samp data-coord="js-basics.umt:239:9">typeof</samp> used for categorizing primitives:
+</p><pre><span class="hl opt">&gt;</span> <span class="hl kwa">typeof null</span>
+<span class="hl str">&apos;object&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl kwa">typeof</span> <span class="hl kwb">undefined</span>
+<span class="hl str">&apos;undefined&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl kwa">typeof</span> <span class="hl str">&quot;&quot;</span>
+<span class="hl str">&apos;string&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl kwa">typeof</span> <span class="hl num">1</span>
+<span class="hl str">&apos;number&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl kwa">typeof</span> <span class="hl num">1.2</span>
+<span class="hl str">&apos;number&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl kwa">typeof true</span>
+<span class="hl str">&apos;boolean&apos;</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:256:0"><h2 data-coord="js-basics.umt:256:0"><samp data-coord="js-basics.umt:256:0">typeof</samp> Continued</h2><pre><span class="hl opt">&gt;</span> <span class="hl kwa">typeof</span> <span class="hl opt">{}</span>  <span class="hl slc">//empty object literal</span>
+<span class="hl str">&apos;object&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl kwa">typeof</span> <span class="hl opt">[]</span>  <span class="hl slc">//empty array literal</span>
+<span class="hl str">&apos;object&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl kwa">typeof</span> <span class="hl opt">(</span><span class="hl kwa">new</span> <span class="hl kwd">Date</span><span class="hl opt">())</span>
+<span class="hl str">&apos;object&apos;</span>
+<span class="hl opt">&gt;</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:269:0"><h2 data-coord="js-basics.umt:269:0"><samp data-coord="js-basics.umt:269:0">instanceof</samp></h2><p data-coord="js-basics.umt:272:0">The <samp data-coord="js-basics.umt:272:4">typeof</samp> operator does not distinguish between different object
+types.  Use <samp data-coord="js-basics.umt:272:80">instanceof</samp> operator for categorizing objects.  The
+expression <em data-coord="js-basics.umt:272:144">v</em> <samp data-coord="js-basics.umt:272:148">instanceof</samp> <em data-coord="js-basics.umt:272:161">Type</em> returns true iff the constructor
+function Type was used to create <em data-coord="js-basics.umt:272:234">v</em>.
+</p><pre><span class="hl opt">&gt; ({}</span> <span class="hl kwa">instanceof</span> Object<span class="hl opt">)</span>
+<span class="hl kwa">true</span>
+<span class="hl opt">&gt; []</span> <span class="hl kwa">instanceof</span> Array
+<span class="hl kwa">true</span>
+<span class="hl opt">&gt; []</span> <span class="hl kwa">instanceof</span> Object
+<span class="hl kwa">true</span>
+<span class="hl opt">&gt; (</span><span class="hl kwa">new</span> <span class="hl kwd">Date</span><span class="hl opt">())</span> <span class="hl kwa">instanceof</span> Date
+<span class="hl kwa">true</span>
+<span class="hl opt">&gt; (</span><span class="hl kwa">new</span> <span class="hl kwd">Date</span><span class="hl opt">())</span> <span class="hl kwa">instanceof</span> Array
+<span class="hl kwa">false</span>
+<span class="hl opt">&gt; (</span><span class="hl kwa">new</span> <span class="hl kwd">Date</span><span class="hl opt">())</span> <span class="hl kwa">instanceof</span> Object
+<span class="hl kwa">true</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:293:0"><h2 data-coord="js-basics.umt:293:0">What is Truth</h2><p data-coord="js-basics.umt:296:0">Many languages, particularly scripting languages, treat some set
+of values as <em data-coord="js-basics.umt:296:78">false</em> and <strong data-coord="js-basics.umt:296:90">all other values</strong> as <em data-coord="js-basics.umt:296:112">true</em>.
+</p><p data-coord="js-basics.umt:299:0">The <em data-coord="js-basics.umt:299:4">falsy</em> values in js are the following:
+</p><ol data-coord="js-basics.umt:301:0"><li data-coord="js-basics.umt:301:0"><p data-coord="js-basics.umt:301:4"><samp data-coord="js-basics.umt:301:4">undefined</samp>.
+</p></li><li data-coord="js-basics.umt:303:0"><p data-coord="js-basics.umt:303:4"><samp data-coord="js-basics.umt:303:4">null</samp>.
+</p></li><li data-coord="js-basics.umt:305:0"><p data-coord="js-basics.umt:305:4"><samp data-coord="js-basics.umt:305:4">false</samp>.
+</p></li><li data-coord="js-basics.umt:307:0"><p data-coord="js-basics.umt:307:4"><samp data-coord="js-basics.umt:307:4">0</samp>.
+</p></li><li data-coord="js-basics.umt:309:0"><p data-coord="js-basics.umt:309:4"><samp data-coord="js-basics.umt:309:4">""</samp> (empty string).
+</p></li><li data-coord="js-basics.umt:311:0"><p data-coord="js-basics.umt:311:4"><samp data-coord="js-basics.umt:311:4">NaN</samp> (Not-a-Number).
+</p></li></ol><p data-coord="js-basics.umt:313:0">All other values are <em data-coord="js-basics.umt:313:21">truthy</em> and considered equivalent to true when used in a
+boolean context.
+</p></section><section class="umt-slide" data-coord="js-basics.umt:316:0"><h2 data-coord="js-basics.umt:316:0">Comparison Operators</h2><ul data-coord="js-basics.umt:319:0"><li data-coord="js-basics.umt:319:0"><p data-coord="js-basics.umt:319:4">Equality checking operators <samp data-coord="js-basics.umt:319:32">==</samp>, <samp data-coord="js-basics.umt:319:38">!=</samp>, <samp data-coord="js-basics.umt:319:44">===</samp>, <samp data-coord="js-basics.umt:319:51">!==</samp>.  <strong data-coord="js-basics.umt:319:59">Only use
+    the last two</strong>.
+</p></li><li data-coord="js-basics.umt:322:0"><p data-coord="js-basics.umt:322:4"><samp data-coord="js-basics.umt:322:4">&gt;</samp>, <samp data-coord="js-basics.umt:322:9">&lt;</samp>, <samp data-coord="js-basics.umt:322:14">&gt;=</samp>, <samp data-coord="js-basics.umt:322:20">&lt;=</samp> can be used with both numbers and strings.
+</p></li><li data-coord="js-basics.umt:324:0"><p data-coord="js-basics.umt:324:4">Objects compared by identity.
+</p></li></ul><pre><span class="hl opt">&gt;</span> <span class="hl num">12.2</span> <span class="hl opt">&lt;</span> <span class="hl num">12.1</span>
+<span class="hl kwa">false</span>
+<span class="hl opt">&gt;</span> <span class="hl num">1</span> <span class="hl opt">==</span> <span class="hl kwa">true</span>     <span class="hl slc">//surprise: DO NOT USE!!</span>
+<span class="hl kwa">true</span>
+<span class="hl opt">&gt;</span> <span class="hl num">1</span> <span class="hl opt">===</span> <span class="hl kwa">true</span>    <span class="hl slc">//less surprising</span>
+<span class="hl kwa">false</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;abc&apos;</span> <span class="hl opt">&lt;</span> <span class="hl str">&apos;ab&apos;</span>
+<span class="hl kwa">false</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;abc&apos;</span> <span class="hl opt">&lt;</span> <span class="hl str">&apos;abcd&apos;</span>
+<span class="hl kwa">true</span>
+<span class="hl opt">&gt; {} === {}</span>
+<span class="hl kwa">false</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:341:0"><h2 data-coord="js-basics.umt:341:0">Logical Operators</h2><ul data-coord="js-basics.umt:344:0"><li data-coord="js-basics.umt:344:0"><p data-coord="js-basics.umt:344:4">Logical operators <samp data-coord="js-basics.umt:344:22">!</samp> returns a strict boolean value 
+(true or false).
+</p></li><li data-coord="js-basics.umt:347:0"><p data-coord="js-basics.umt:347:4">short-circuit <samp data-coord="js-basics.umt:347:18">&amp;&amp;</samp> and short-circuit <samp data-coord="js-basics.umt:347:41">||</samp> 
+return falsy/truthy values (last value evaluated).
+</p></li></ul><pre><span class="hl opt">&gt; !</span><span class="hl kwa">true</span>
+<span class="hl kwa">false</span>
+<span class="hl opt">&gt; !</span><span class="hl num">1</span>
+<span class="hl kwa">false</span>
+<span class="hl opt">&gt; !!</span><span class="hl num">1</span>  <span class="hl slc">//common idiom used to convert to proper boolean</span>
+<span class="hl kwa">true</span>
+<span class="hl opt">&gt; !!</span><span class="hl num">0</span>
+<span class="hl kwa">false</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:361:0"><h2 data-coord="js-basics.umt:361:0">Logical Operators Continued</h2><pre><span class="hl opt">&gt;</span> <span class="hl str">&apos;hello&apos;</span> <span class="hl opt">||</span> <span class="hl str">&apos;world&apos;</span>
+<span class="hl str">&apos;hello&apos;</span>
+<span class="hl opt">&gt;</span> <span class="hl str">&apos;hello&apos;</span> <span class="hl opt">&amp;&amp;</span> <span class="hl str">&apos;world&apos;</span>
+<span class="hl str">&apos;world&apos;</span>
+<span class="hl opt">&gt;</span> defaultValue <span class="hl opt">=</span> <span class="hl num">42</span>
+<span class="hl num">42</span>
+<span class="hl opt">&gt;</span> <span class="hl kwa">let</span> x
+<span class="hl kwb">undefined</span>
+<span class="hl opt">&gt;</span> <span class="hl kwa">let</span> y <span class="hl opt">=</span> x <span class="hl opt">||</span> defaultValue <span class="hl slc">//common idiom for default init</span>
+<span class="hl kwb">undefined</span>
+<span class="hl opt">&gt;</span> y
+<span class="hl num">42</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:380:0"><h2 data-coord="js-basics.umt:380:0">Logical Operators Continued</h2><p data-coord="js-basics.umt:383:0">Default initialization idiom should only be used if a valid value
+is not one of the falsy values.
+</p><pre><span class="hl opt">&gt;</span> x <span class="hl opt">=</span> <span class="hl num">0</span>  <span class="hl slc">//0 is falsy</span>
+<span class="hl num">0</span>
+<span class="hl opt">&gt;</span> <span class="hl kwa">let</span> z <span class="hl opt">=</span> x <span class="hl opt">||</span> defaultValue
+<span class="hl kwb">undefined</span>
+<span class="hl opt">&gt;</span> z 
+<span class="hl num">42</span> <span class="hl slc">//z assigned defaultValue despite x having a value</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:395:0"><h2 data-coord="js-basics.umt:395:0">Control Constructs</h2><ul data-coord="js-basics.umt:398:0"><li data-coord="js-basics.umt:398:0"><p data-coord="js-basics.umt:398:4"><em data-coord="js-basics.umt:398:99"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else" data-coord="js-basics.umt:398:99">Condition-based selection</a></em> using <code><span class="hl kwa">if</span></code> and <code><span class="hl kwa">if</span><span class="hl opt">-</span><span class="hl kwa">else</span></code> statements.
+ No surprises except truthy interpretation of condition.
+</p></li><li data-coord="js-basics.umt:402:0"><p data-coord="js-basics.umt:402:4"><em data-coord="js-basics.umt:402:95"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch" data-coord="js-basics.umt:402:95">Multiway selection</a></em> on a value (including string values) using  
+<code><span class="hl kwa">switch</span><span class="hl opt">-</span><span class="hl kwa">case</span><span class="hl opt">-</span><span class="hl kwa">default</span></code>.  Value compared with <code><span class="hl kwa">case</span></code>-values
+ using <samp data-coord="js-basics.umt:402:236">===</samp>.  Control will fall-through from one <code><span class="hl kwa">case</span></code> to the next,
+ unless there is a <code><span class="hl kwa">break</span></code> statement.
+</p></li><li data-coord="js-basics.umt:408:0"><p data-coord="js-basics.umt:408:4">Looping using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while" data-coord="js-basics.umt:408:104">while.</a>  Body may not execute at all if condition
+is initially falsy.
+</p></li><li data-coord="js-basics.umt:411:0"><p data-coord="js-basics.umt:411:4">Looping using
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/do...while" data-coord="js-basics.umt:411:117">do-while</a> statement executes its body at least once, irrespective
+of the value of the condition.
+</p></li></ul></section><section class="umt-slide" data-coord="js-basics.umt:416:0"><h2 data-coord="js-basics.umt:416:0">For Loops</h2><ul data-coord="js-basics.umt:419:0"><li data-coord="js-basics.umt:419:0"><p data-coord="js-basics.umt:419:4"><em data-coord="js-basics.umt:419:92"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for" data-coord="js-basics.umt:419:92">Traditional for</a></em> loop with initialization expression, condition
+expression and increment expression.  Any of the three expressions can
+be omitted.
+</p></li><li data-coord="js-basics.umt:424:0"><p data-coord="js-basics.umt:424:4">Looping through <em data-coord="js-basics.umt:424:114"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in" data-coord="js-basics.umt:424:114">object properties</a></em> using <code><span class="hl kwa">for</span><span class="hl opt">-</span><span class="hl kwa">in</span></code>.
+</p></li><li data-coord="js-basics.umt:427:0"><p data-coord="js-basics.umt:427:4">Looping over <em data-coord="js-basics.umt:427:106"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of" data-coord="js-basics.umt:427:106">iterable objects</a></em> like arrays using <code><span class="hl kwa">for</span><span class="hl opt">-</span><span class="hl kwa">of</span></code>.
+</p></li></ul></section><section class="umt-slide" data-coord="js-basics.umt:430:0"><h2 data-coord="js-basics.umt:430:0">For Loop Examples</h2><p data-coord="js-basics.umt:433:0">Summing positive elements of array <samp data-coord="js-basics.umt:433:35">a</samp> (better to use <samp data-coord="js-basics.umt:433:54">filter</samp> and <samp data-coord="js-basics.umt:433:67">reduce</samp>):
+</p><p data-coord="js-basics.umt:435:0">Using traditional <code><span class="hl kwa">for</span></code>:
+</p><pre><span class="hl kwa">let</span> sum <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl kwa">for</span> <span class="hl opt">(</span><span class="hl kwa">let</span> i <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span> i <span class="hl opt">&lt;</span> a<span class="hl opt">.</span>length<span class="hl opt">;</span> i<span class="hl opt">++) {</span>
+  <span class="hl kwa">if</span> <span class="hl opt">(</span>a<span class="hl opt">[</span>i<span class="hl opt">] &gt;</span> <span class="hl num">0</span><span class="hl opt">)</span> sum <span class="hl opt">+=</span> a<span class="hl opt">[</span>i<span class="hl opt">];</span>
+<span class="hl opt">}</span></pre><p data-coord="js-basics.umt:444:0">Using <code><span class="hl kwa">for</span><span class="hl opt">-</span><span class="hl kwa">of</span></code>:
+</p><pre><span class="hl kwa">let</span> sum <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl kwa">for</span> <span class="hl opt">(</span><span class="hl kwa">const</span> v <span class="hl kwa">of</span> a<span class="hl opt">) {</span>
+  <span class="hl kwa">if</span> <span class="hl opt">(</span>v <span class="hl opt">&gt;</span> <span class="hl num">0</span><span class="hl opt">)</span> sum <span class="hl opt">+=</span> v<span class="hl opt">;</span>
+<span class="hl opt">}</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:454:0"><h2 data-coord="js-basics.umt:454:0">Loop Choice</h2><p data-coord="js-basics.umt:457:0">Always use loop which moves as much of loop control into loop header; do
+so at the highest level of abstraction.  In descending order of preference:
+</p><ul data-coord="js-basics.umt:460:0"><li data-coord="js-basics.umt:460:0"><p data-coord="js-basics.umt:460:4">Looping through array: use <code><span class="hl kwa">for</span><span class="hl opt">-</span><span class="hl kwa">of</span></code>.  Looping through object
+properties: use <code><span class="hl kwa">for</span><span class="hl opt">-</span><span class="hl kwa">in</span></code>.
+</p></li><li data-coord="js-basics.umt:463:0"><p data-coord="js-basics.umt:463:4">Looping through integer range: use traditional <code><span class="hl kwa">for</span></code>.
+</p></li><li data-coord="js-basics.umt:465:0"><p data-coord="js-basics.umt:465:4">Body executed at least once: use <code><span class="hl kwa">do</span><span class="hl opt">-</span><span class="hl kwa">while</span></code>.
+</p></li><li data-coord="js-basics.umt:467:0"><p data-coord="js-basics.umt:467:4">Plain <code><span class="hl kwa">while</span></code> loop is most general; lowest preference since loop
+update hidden within loop body.
+</p></li></ul></section><section class="umt-slide" data-coord="js-basics.umt:472:0"><h2 data-coord="js-basics.umt:472:0">A Glimpse At Objects</h2><p data-coord="js-basics.umt:475:0">An object is merely a named collection of key-value pairs (which include
+functions).  Values are referred to as object <strong data-coord="js-basics.umt:475:119">properties</strong>.
+</p><pre><span class="hl opt">&gt;</span> x <span class="hl opt">= {</span> a<span class="hl opt">:</span> <span class="hl num">9</span><span class="hl opt">,</span> b<span class="hl opt">:</span> <span class="hl num">2</span><span class="hl opt">, }</span>  <span class="hl slc">//object literal</span>
+<span class="hl opt">{</span> a<span class="hl opt">:</span> <span class="hl num">9</span><span class="hl opt">,</span> b<span class="hl opt">:</span> <span class="hl num">2</span> <span class="hl opt">}</span>
+<span class="hl opt">&gt;</span> x<span class="hl opt">.</span>b                  <span class="hl slc">//static key name</span>
+<span class="hl num">2</span>
+<span class="hl opt">&gt;</span> x<span class="hl opt">[</span><span class="hl str">&apos;abc&apos;</span><span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]]</span>          <span class="hl slc">//dynamic key name</span>
+<span class="hl num">2</span>
+<span class="hl opt">&gt;</span> c <span class="hl opt">=</span> <span class="hl str">&apos;xy&apos;</span>
+xy
+<span class="hl opt">&gt;</span> z <span class="hl opt">= {</span> a<span class="hl opt">:</span> <span class="hl num">42</span><span class="hl opt">,</span> c<span class="hl opt">,</span> b<span class="hl opt">:</span> <span class="hl num">8</span> <span class="hl opt">}</span> <span class="hl slc">//key = variable name</span>
+<span class="hl opt">{</span> a<span class="hl opt">:</span> <span class="hl num">42</span><span class="hl opt">,</span> c<span class="hl opt">:</span> <span class="hl str">&apos;xy&apos;</span><span class="hl opt">,</span> b<span class="hl opt">:</span> <span class="hl num">8</span> <span class="hl opt">}</span>
+<span class="hl opt">&gt;</span> z <span class="hl opt">= {</span> a<span class="hl opt">:</span> <span class="hl num">42</span><span class="hl opt">, [</span>c<span class="hl opt">]:</span> <span class="hl num">19</span> <span class="hl opt">}</span> <span class="hl slc">//dynamic key</span>
+<span class="hl opt">{</span> a<span class="hl opt">:</span> <span class="hl num">42</span><span class="hl opt">,</span> xy<span class="hl opt">:</span> <span class="hl num">19</span> <span class="hl opt">}</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:493:0"><h2 data-coord="js-basics.umt:493:0">A Glimpse At Objects Continued: Function Properties</h2><pre>a <span class="hl opt">= {</span> x<span class="hl opt">:</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl kwd">f</span><span class="hl opt">:</span>  <span class="hl kwa">function</span><span class="hl opt">(</span>a<span class="hl opt">) {</span> <span class="hl kwa">return</span> a <span class="hl opt">*</span> <span class="hl kwa">this</span><span class="hl opt">.</span>x<span class="hl opt">; } }</span>
+<span class="hl opt">{</span> x<span class="hl opt">:</span> <span class="hl num">2</span><span class="hl opt">,</span> f<span class="hl opt">: [</span>Function<span class="hl opt">:</span> f<span class="hl opt">] }</span> <span class="hl slc">//function prop value</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">.</span><span class="hl kwd">f</span><span class="hl opt">(</span><span class="hl num">3</span><span class="hl opt">)</span>
+<span class="hl num">6</span>
+<span class="hl opt">&gt;</span> a <span class="hl opt">= {</span> x<span class="hl opt">:</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl kwd">f</span><span class="hl opt">(</span>a<span class="hl opt">) {</span> <span class="hl kwa">return</span> a <span class="hl opt">*</span> <span class="hl kwa">this</span><span class="hl opt">.</span>x<span class="hl opt">; } }</span>
+<span class="hl opt">{</span> x<span class="hl opt">:</span> <span class="hl num">2</span><span class="hl opt">,</span> f<span class="hl opt">: [</span>Function<span class="hl opt">:</span> f<span class="hl opt">] }</span> 
+<span class="hl opt">&gt;</span> a<span class="hl opt">.</span><span class="hl kwd">f</span><span class="hl opt">(</span><span class="hl num">3</span><span class="hl opt">)</span>
+<span class="hl num">6</span>
+<span class="hl opt">&gt;</span> c <span class="hl opt">=</span> <span class="hl str">&apos;xy&apos;</span>
+<span class="hl str">&apos;xy&apos;</span>
+<span class="hl opt">&gt;</span> a <span class="hl opt">= {</span> x<span class="hl opt">:</span> <span class="hl num">2</span><span class="hl opt">, [</span>c<span class="hl opt">](</span>a<span class="hl opt">) {</span> <span class="hl kwa">return</span> a <span class="hl opt">*</span> <span class="hl kwa">this</span><span class="hl opt">.</span>x<span class="hl opt">; } }</span>
+<span class="hl opt">{</span> x<span class="hl opt">:</span> <span class="hl num">2</span><span class="hl opt">,</span> xy<span class="hl opt">: [</span>Function<span class="hl opt">:</span> xy<span class="hl opt">] }</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">.</span><span class="hl kwd">xy</span><span class="hl opt">(</span><span class="hl num">4</span><span class="hl opt">)</span>
+<span class="hl num">8</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:513:0"><h2 data-coord="js-basics.umt:513:0">Functions</h2><ul data-coord="js-basics.umt:517:0"><li data-coord="js-basics.umt:517:0"><p data-coord="js-basics.umt:517:4">Functions are <strong data-coord="js-basics.umt:517:18">first-class</strong>: need not have a name ("anonymous"),
+can be passed as parameters, returned as results, stored
+in data structure.
+</p></li><li data-coord="js-basics.umt:521:0"><p data-coord="js-basics.umt:521:4">Functions can be nested within one another.
+</p></li><li data-coord="js-basics.umt:523:0"><p data-coord="js-basics.umt:523:4"><strong data-coord="js-basics.umt:523:4">Closures</strong> preserve the referencing environment of a function.
+</p></li><li data-coord="js-basics.umt:525:0"><p data-coord="js-basics.umt:525:4">During execution of a function, there is always an implicit
+object, referred to using <samp data-coord="js-basics.umt:525:94">this</samp>.  The word <samp data-coord="js-basics.umt:525:112">this</samp> will be
+pronounced <samp data-coord="js-basics.umt:525:142">self</samp> when speaking.
+</p></li></ul></section><section class="umt-slide" data-coord="js-basics.umt:530:0"><h2 data-coord="js-basics.umt:530:0">Traditional Function Definition</h2><pre><span class="hl opt">&gt;</span> <span class="hl kwa">function</span> <span class="hl kwd">max1</span><span class="hl opt">(</span>a<span class="hl opt">,</span> b<span class="hl opt">) {</span> <span class="hl kwa">return</span> a <span class="hl opt">&gt;</span> b <span class="hl opt">?</span> a <span class="hl opt">:</span> b <span class="hl opt">}</span>
+<span class="hl kwb">undefined</span>
+<span class="hl opt">&gt;</span> <span class="hl kwd">max1</span><span class="hl opt">(</span><span class="hl num">4</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">)</span>
+<span class="hl num">4</span>
+<span class="hl opt">&gt;</span> x <span class="hl opt">=</span> max1 <span class="hl slc">//storing function in variable</span>
+<span class="hl opt">[</span>Function<span class="hl opt">:</span> max1<span class="hl opt">]</span>
+<span class="hl opt">&gt;</span> x<span class="hl opt">.</span>name
+<span class="hl str">&apos;max1&apos;</span>
+<span class="hl opt">&gt;</span> x<span class="hl opt">.</span>length  <span class="hl slc">//number of formals</span>
+<span class="hl num">2</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:546:0"><h2 data-coord="js-basics.umt:546:0">Defining Function Using a Function Expression</h2><pre><span class="hl opt">&gt;</span> x <span class="hl opt">=</span> <span class="hl kwd">max2</span> <span class="hl opt">=</span> <span class="hl kwa">function</span><span class="hl opt">(</span>a<span class="hl opt">,</span> b<span class="hl opt">) {</span> <span class="hl kwa">return</span> a <span class="hl opt">&gt;</span> b <span class="hl opt">?</span> a <span class="hl opt">:</span> b <span class="hl opt">}</span>
+<span class="hl opt">[</span>Function<span class="hl opt">:</span> max2<span class="hl opt">]</span>
+<span class="hl opt">&gt;</span> <span class="hl kwd">max2</span><span class="hl opt">(</span><span class="hl num">4</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">)</span>
+<span class="hl num">4</span>
+<span class="hl opt">&gt;</span> <span class="hl kwd">x</span><span class="hl opt">(</span><span class="hl num">4</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">)</span>
+<span class="hl num">4</span>
+<span class="hl opt">&gt;</span> x<span class="hl opt">.</span>name
+<span class="hl str">&apos;max2&apos;</span>
+<span class="hl opt">&gt;</span> x<span class="hl opt">.</span>length
+<span class="hl num">2</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:563:0"><h2 data-coord="js-basics.umt:563:0">Fat-Arrow Functions</h2><p data-coord="js-basics.umt:566:0">Newer feature, does not bind <samp data-coord="js-basics.umt:566:29">this</samp> or other function "variables".
+Cannot be used for constructors; best for non-method functions.
+</p><pre><span class="hl opt">&gt;</span> x <span class="hl opt">=</span> max4 <span class="hl opt">= (</span>a<span class="hl opt">,</span> b<span class="hl opt">) =&gt;</span> a <span class="hl opt">&gt;</span> b <span class="hl opt">?</span> a <span class="hl opt">:</span> b
+<span class="hl opt">[</span>Function<span class="hl opt">:</span> max4<span class="hl opt">]</span>
+<span class="hl opt">&gt;</span> <span class="hl kwd">x</span><span class="hl opt">(</span><span class="hl num">4</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">)</span>
+<span class="hl num">4</span>
+<span class="hl opt">&gt;</span> x<span class="hl opt">.</span>name
+<span class="hl str">&apos;max4&apos;</span>
+<span class="hl opt">&gt;</span> x<span class="hl opt">.</span>length
+<span class="hl num">2</span>
+<span class="hl opt">&gt; {</span> a<span class="hl opt">:</span> <span class="hl num">42</span><span class="hl opt">,</span> neg<span class="hl opt">:</span> x <span class="hl opt">=&gt; -</span>x <span class="hl opt">}</span> <span class="hl slc">//part of data structures</span>
+<span class="hl opt">{</span> a<span class="hl opt">:</span> <span class="hl num">42</span><span class="hl opt">,</span> neg<span class="hl opt">: [</span>Function<span class="hl opt">:</span> neg<span class="hl opt">] }</span>
+<span class="hl opt">&gt;</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:585:0"><h2 data-coord="js-basics.umt:585:0">Arrays</h2><p data-coord="js-basics.umt:589:0"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" data-coord="js-basics.umt:589:0">Arrays (AKA lists) are like objects except:
+</a></p><ul data-coord="js-basics.umt:591:0"><li data-coord="js-basics.umt:591:0"><p data-coord="js-basics.umt:591:4">It has an auto-maintained <samp data-coord="js-basics.umt:591:30">length</samp> property (always set to 1 greater
+than the largest array index).
+</p></li><li data-coord="js-basics.umt:594:0"><p data-coord="js-basics.umt:594:4">Arrays have their prototype set to <samp data-coord="js-basics.umt:594:39">Array.prototype</samp> (`Array.prototype`
+has its prototype set to <samp data-coord="js-basics.umt:594:105">Object.prototype</samp>, hence arrays inherit
+object methods).
+</p></li></ul></section><section class="umt-slide" data-coord="js-basics.umt:599:0"><h2 data-coord="js-basics.umt:599:0">Arrays vs Objects Examples</h2><pre><span class="hl opt">&gt;</span> a <span class="hl opt">= []</span>
+<span class="hl opt">[]</span>
+<span class="hl opt">&gt;</span> o <span class="hl opt">= {}</span>
+<span class="hl opt">{}</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">.</span>length
+<span class="hl num">0</span>
+<span class="hl opt">&gt;</span> o<span class="hl opt">.</span>length
+<span class="hl kwb">undefined</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">] =</span> <span class="hl num">22</span>
+<span class="hl num">22</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">.</span>length
+<span class="hl num">3</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">]</span>
+<span class="hl num">22</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:620:0"><h2 data-coord="js-basics.umt:620:0">Arrays vs Objects Examples Continued</h2><pre><span class="hl opt">&gt;</span> a<span class="hl opt">.</span><span class="hl kwd">join</span><span class="hl opt">(</span><span class="hl str">&apos;|&apos;</span><span class="hl opt">)</span>
+<span class="hl str">&apos;||22&apos;</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">.</span>length <span class="hl opt">=</span> <span class="hl num">1</span> <span class="hl slc">//truncates</span>
+<span class="hl num">1</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">]</span>
+<span class="hl kwb">undefined</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">.</span>length
+<span class="hl num">1</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">.</span><span class="hl kwa">constructor</span>
+<span class="hl opt">[</span>Function<span class="hl opt">:</span> Array<span class="hl opt">]</span>
+<span class="hl opt">&gt;</span> o<span class="hl opt">.</span><span class="hl kwa">constructor</span>
+<span class="hl opt">[</span>Function<span class="hl opt">:</span> Object<span class="hl opt">]</span>
+<span class="hl opt">&gt;</span> a<span class="hl opt">.</span>x <span class="hl opt">= {</span> c<span class="hl opt">:</span> <span class="hl num">19</span> <span class="hl opt">}</span> <span class="hl slc">//can have properties too</span>
+<span class="hl opt">{</span> c<span class="hl opt">:</span> <span class="hl num">19</span> <span class="hl opt">}</span>
+<span class="hl opt">&gt;</span> a
+<span class="hl opt">[ &lt;</span><span class="hl num">1</span> empty item<span class="hl opt">&gt;,</span> x<span class="hl opt">: {</span> c<span class="hl opt">:</span> <span class="hl num">19</span> <span class="hl opt">} ]</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:643:0"><h2 data-coord="js-basics.umt:643:0">Mapping Arrays</h2><p data-coord="js-basics.umt:647:0">The <samp data-coord="js-basics.umt:647:4">map()</samp> function returns a new array which is the result of
+calling its argument function on each element of the calling array.
+</p><pre><span class="hl opt">&gt;</span> <span class="hl kwa">function</span> <span class="hl kwd">times3</span><span class="hl opt">(</span>x<span class="hl opt">) {</span> <span class="hl kwa">return</span> <span class="hl num">3</span><span class="hl opt">*</span>x<span class="hl opt">; }</span>
+<span class="hl kwb">undefined</span>
+<span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">].</span><span class="hl kwd">map</span><span class="hl opt">(</span>times3<span class="hl opt">)</span>
+<span class="hl opt">[</span> <span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">6</span><span class="hl opt">,</span> <span class="hl num">9</span> <span class="hl opt">]</span>
+<span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">].</span><span class="hl kwd">map</span><span class="hl opt">(</span>x <span class="hl opt">=&gt;</span> <span class="hl num">7</span><span class="hl opt">*</span>x<span class="hl opt">);</span>
+<span class="hl opt">[</span> <span class="hl num">7</span><span class="hl opt">,</span> <span class="hl num">14</span><span class="hl opt">,</span> <span class="hl num">21</span> <span class="hl opt">]</span>
+<span class="hl opt">&gt; [</span><span class="hl num">7</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">].</span><span class="hl kwd">map</span><span class="hl opt">(</span>x <span class="hl opt">=&gt;</span> x <span class="hl opt">%</span> <span class="hl num">2</span> <span class="hl opt">===</span> <span class="hl num">0</span><span class="hl opt">)</span> 
+<span class="hl opt">[</span> <span class="hl kwa">false</span><span class="hl opt">,</span> <span class="hl kwa">false</span><span class="hl opt">,</span> <span class="hl kwa">true</span><span class="hl opt">,</span> <span class="hl kwa">true</span> <span class="hl opt">]</span>
+<span class="hl opt">&gt;</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:662:0"><h2 data-coord="js-basics.umt:662:0">Reducing Arrays</h2><p data-coord="js-basics.umt:666:0">The <samp data-coord="js-basics.umt:666:4">reduce()</samp> function using a function <samp data-coord="js-basics.umt:666:41">f(accumulator, element)</samp>
+to reduce an array to a single value.
+</p><pre><span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span><span class="hl num">2</span><span class="hl opt">,</span><span class="hl num">3</span><span class="hl opt">,</span><span class="hl num">4</span><span class="hl opt">,</span><span class="hl num">5</span><span class="hl opt">].</span><span class="hl kwd">reduce</span><span class="hl opt">((</span>acc<span class="hl opt">,</span> value<span class="hl opt">) =&gt;</span> acc <span class="hl opt">+</span> value<span class="hl opt">)</span>
+<span class="hl num">15</span>
+<span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span><span class="hl num">2</span><span class="hl opt">,</span><span class="hl num">3</span><span class="hl opt">,</span><span class="hl num">4</span><span class="hl opt">,</span><span class="hl num">5</span><span class="hl opt">].</span><span class="hl kwd">reduce</span> <span class="hl opt">((</span>acc<span class="hl opt">,</span> value<span class="hl opt">) =&gt;</span> acc <span class="hl opt">+</span> value<span class="hl opt">,</span> <span class="hl num">7</span> <span class="hl opt">)</span>
+<span class="hl num">22</span>
+<span class="hl opt">&gt; [</span><span class="hl num">12</span><span class="hl opt">].</span><span class="hl kwd">reduce</span><span class="hl opt">((</span>acc<span class="hl opt">,</span> value<span class="hl opt">) =&gt;</span> acc <span class="hl opt">+</span> value<span class="hl opt">)</span>
+<span class="hl num">12</span>
+<span class="hl opt">&gt; &gt; [].</span><span class="hl kwd">reduce</span><span class="hl opt">((</span>acc<span class="hl opt">,</span> value<span class="hl opt">) =&gt;</span> acc <span class="hl opt">+</span> value<span class="hl opt">,</span> <span class="hl num">15</span><span class="hl opt">)</span>
+<span class="hl num">15</span>
+<span class="hl opt">&gt; [].</span><span class="hl kwd">reduce</span><span class="hl opt">((</span>acc<span class="hl opt">,</span> value<span class="hl opt">) =&gt;</span> acc <span class="hl opt">+</span> value<span class="hl opt">)</span>
+TypeError<span class="hl opt">:</span> Reduce <span class="hl kwa">of</span> empty array <span class="hl kwa">with</span> no initial value
+<span class="hl opt">...</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:684:0"><h2 data-coord="js-basics.umt:684:0">Applying a Function to Each Array Element</h2><p data-coord="js-basics.umt:687:0"><samp data-coord="js-basics.umt:687:0">forEach()</samp> applies function to each element.  Like many other
+functions callback takes 3 arguments: elementValue, elementIndex
+plus full array.
+</p><pre>indexes <span class="hl opt">= []</span>
+<span class="hl opt">[]</span>
+<span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">].</span><span class="hl kwd">forEach</span><span class="hl opt">((</span> v<span class="hl opt">,</span> i <span class="hl opt">) =&gt; {</span>
+    <span class="hl kwa">if</span> <span class="hl opt">(</span>v<span class="hl opt">%</span><span class="hl num">2</span> <span class="hl opt">===</span> <span class="hl num">0</span><span class="hl opt">)</span> indexes<span class="hl opt">.</span><span class="hl kwd">push</span> <span class="hl opt">(</span>i<span class="hl opt">);</span>
+   <span class="hl opt">})</span>
+<span class="hl kwb">undefined</span>
+<span class="hl opt">&gt;</span> indexes
+<span class="hl opt">[</span> <span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">3</span> <span class="hl opt">]</span>
+<span class="hl opt">&gt;</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:703:0"><h2 data-coord="js-basics.umt:703:0">Other Higher-Order Array Functions</h2><p data-coord="js-basics.umt:706:0">Includes <samp data-coord="js-basics.umt:706:9">every()</samp>, <samp data-coord="js-basics.umt:706:20">find()</samp>, <samp data-coord="js-basics.umt:706:30">findIndex()</samp>, <samp data-coord="js-basics.umt:706:45">filter()</samp>,
+<samp data-coord="js-basics.umt:706:57">reduceRight()</samp>, <samp data-coord="js-basics.umt:706:74">some()</samp>.
+</p><pre><span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">].</span><span class="hl kwd">find</span><span class="hl opt">(</span>x <span class="hl opt">=&gt;</span> x<span class="hl opt">%</span><span class="hl num">2</span> <span class="hl opt">===</span> <span class="hl num">0</span><span class="hl opt">)</span>
+<span class="hl num">2</span>
+<span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">].</span><span class="hl kwd">findIndex</span><span class="hl opt">(</span>x <span class="hl opt">=&gt;</span> x<span class="hl opt">%</span><span class="hl num">2</span> <span class="hl opt">===</span> <span class="hl num">0</span><span class="hl opt">)</span>
+<span class="hl num">1</span>
+<span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">].</span><span class="hl kwd">every</span><span class="hl opt">(</span>x <span class="hl opt">=&gt;</span> x<span class="hl opt">%</span><span class="hl num">2</span> <span class="hl opt">===</span> <span class="hl num">0</span><span class="hl opt">)</span>
+<span class="hl kwa">false</span>
+<span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">].</span><span class="hl kwd">some</span><span class="hl opt">(</span>x <span class="hl opt">=&gt;</span> x<span class="hl opt">%</span><span class="hl num">2</span> <span class="hl opt">===</span> <span class="hl num">0</span><span class="hl opt">)</span>
+<span class="hl kwa">true</span>
+<span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">].</span><span class="hl kwd">reduce</span><span class="hl opt">((</span>acc<span class="hl opt">,</span> v<span class="hl opt">) =&gt;</span> acc <span class="hl opt">-</span> v<span class="hl opt">)</span>
+<span class="hl opt">-</span><span class="hl num">8</span>             <span class="hl slc">//((1-2)-3)-4</span>
+<span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">].</span><span class="hl kwd">reduceRight</span><span class="hl opt">((</span>acc<span class="hl opt">,</span> v<span class="hl opt">) =&gt;</span> acc <span class="hl opt">-</span> v<span class="hl opt">)</span>
+<span class="hl opt">-</span><span class="hl num">2</span>             <span class="hl slc">//1-(2-(3-4))</span>
+<span class="hl opt">&gt;</span></pre></section><section class="umt-slide" data-coord="js-basics.umt:725:0"><h2 data-coord="js-basics.umt:725:0">Other Higher-Order Array Functions</h2><p data-coord="js-basics.umt:728:0">Summing positive elements of array:
+</p><pre><span class="hl opt">&gt; [</span><span class="hl num">1</span><span class="hl opt">, -</span><span class="hl num">2</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">, -</span><span class="hl num">4</span><span class="hl opt">].</span><span class="hl kwd">filter</span><span class="hl opt">((</span>e<span class="hl opt">) =&gt;</span> e <span class="hl opt">&gt;</span> <span class="hl num">0</span><span class="hl opt">).</span>
+     <span class="hl kwd">reduce</span><span class="hl opt">((</span>acc<span class="hl opt">,</span> e<span class="hl opt">) =&gt;</span> acc <span class="hl opt">+</span> e<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">)</span>
+<span class="hl num">4</span></pre></section></section>
+</div> <!-- #content -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../../assets/scripts/slide-controls.js"></script>
+<script src="../../assets/scripts/loginAction.js"></script>
+</body>
+</html>

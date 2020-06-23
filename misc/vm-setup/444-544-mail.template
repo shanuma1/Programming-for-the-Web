@@ -1,0 +1,19 @@
+Subject: Your VM for CS 444/544
+
+The details of the VM you have been assigned for CS 444/544 are
+as follows:
+
+		IP: ${ip}
+		User id: ${id}
+		Password: ${pw}
+
+The above password is not secure since it has been sent out in an
+unsecure email.  Please log in to your VM immediately and change your
+password (you will need to ssh from within the campus network).
+
+Further details on setting up your VM can be found at
+
+       <${infoUrl}>.
+
+-zerksis
+======

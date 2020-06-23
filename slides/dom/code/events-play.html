@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DOM Events</title>
+  </head>
+  <body>
+    <h1>DOM Events</h1>
+    <p>
+      <label for="target"><strong>Event target</strong>:</label>
+      <input id="target">
+    </p>
+    <p id="display"></p>
+    <script>
+     (function() {
+       function setup() {
+	 const target = document.getElementById('target');
+	 [ 'change', 'mouseenter', 'mouseleave', 'focus', 'blur', 'keyup', ].
+	   forEach(e => target.addEventListener(e, listen));
+       }
+
+       function listen(event) {
+	 const [type, target]  = [event.type, event.target];
+         let msg =
+           `event ${type} at element with id #${target.getAttribute('id')};`;
+	 if (event instanceof MouseEvent) {
+	   for (const t of [ 'client', 'offset', 'page' ]) {
+	     const [x, y] = [ event[`${t}X`], event[`${t}Y`] ];
+	     msg += ` ${t} coords: (${x}, ${y});`;
+	   }
+	 }
+	 const display = document.getElementById('display');
+	 display.innerHTML = display.innerHTML + `${msg}<br>`;
+       }
+
+       setup();
+    
+     })();
+    </script>
+  </body>
+</html>
