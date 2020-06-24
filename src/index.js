@@ -104,13 +104,16 @@ function header(meta, path, $element) {
 
 function input(meta, path, $element) {
   const text = meta.required ? '*' : ""; 
-  const idi = makeId(path)
-  if(!meta.attr['id']) Object.assign(meta.attr, {id: idi})
-  //console.log(meta.subType)
-  const typei = meta.subType || "text"
-  console.log(typei)
+  const id_attr = makeId(path)
+  if(!meta.attr['id']) Object.assign(meta.attr, {id: id_attr})
+  const type_attr = meta.subType || "text"
+  console.log(type_attr)
   $element.append(makeElement('label', meta.attr).text(meta.text + text))
-  $element.append(makeElement('input', Object.assign(meta.attr, {type: typei})));
+  const $input_div = makeElement('div')
+  $input_div.append(makeElement('input', Object.assign(meta.attr, {type: type_attr})));
+  //$input_div.append(makeElement('div', Object.assign({}, {class: "error"}, {id: id_attr+'-err'})).text('The field Search Terms must be Specified'))
+  $input_div.append(makeElement('div', Object.assign({}, {class: "error"})))
+  $element.append($input_div)
 }
 
 function link(meta, path, $element) {
@@ -143,7 +146,28 @@ function submit(meta, path, $element) {
 }
 
 function uniSelect(meta, path, $element) {
-  //@TODO
+  console.log(meta)
+  const $uni_div = makeElement('div')
+  const label_id = makeId(path)
+  $element.append(makeElement('label', Object.assign({}, {id: label_id})).text(meta.text))
+  const greater_inp = meta.items.length > Meta._options.N_UNI_SELECT;
+  if(greater_inp) {
+    const $sel = makeElement('select', meta.attr);
+    for (let i = 0; i < meta.items.length; i++) {
+      $sel.append(makeElement('option', Object.assign({}, {value: meta.items[i].key})).text(meta.items[i].text))
+    }
+    $uni_div.append($sel)
+  } else {
+    const $field_div = makeElement('div', {class: "fieldset"})
+    for (let i  = 0; i < meta.items.length; i++) {
+      $field_div.append(makeElement('label', {id: label_id}).text(meta.items[i].key))
+      $field_div.append(makeElement('input', Object.assign(meta.attr, {value: meta.items[i].key},
+                                 {type: "radio"}, {id: label_id+'-'+i})))
+    }
+    $uni_div.append($field_div)
+  }
+  $uni_div.append(makeElement('div', Object.assign({class: "error"}, {id: label_id+'-err'})))
+  $element.append($uni_div);
 }
 
 
