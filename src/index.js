@@ -124,7 +124,7 @@ function link(meta, path, $element) {
 }
 
 function multiSelect(meta, path, $element) {
-  //@TODO
+  extractor(meta, path, $element, true, "checkbox")
 }
 
 function para(meta, path, $element) { items('p', meta, path, $element); }
@@ -145,14 +145,17 @@ function submit(meta, path, $element) {
   $element.append(makeElement('button', attr).text(meta.text||"Submit"))
 }
 
-function uniSelect(meta, path, $element) {
+function extractor(meta, path, $element, multi, inp_type) {
   console.log(meta)
   const $uni_div = makeElement('div')
   const label_id = makeId(path)
   $element.append(makeElement('label', Object.assign({}, {id: label_id})).text(meta.text))
   const greater_inp = meta.items.length > Meta._options.N_UNI_SELECT;
   if(greater_inp) {
-    const $sel = makeElement('select', meta.attr);
+    let multi_en
+    if (multi) multi_en = {multiple: "true"};
+    else multi_en = {}
+    const $sel = makeElement('select', Object.assign(meta.attr, multi_en));
     for (let i = 0; i < meta.items.length; i++) {
       $sel.append(makeElement('option', Object.assign({}, {value: meta.items[i].key})).text(meta.items[i].text))
     }
@@ -162,12 +165,16 @@ function uniSelect(meta, path, $element) {
     for (let i  = 0; i < meta.items.length; i++) {
       $field_div.append(makeElement('label', {id: label_id}).text(meta.items[i].key))
       $field_div.append(makeElement('input', Object.assign(meta.attr, {value: meta.items[i].key},
-                                 {type: "radio"}, {id: label_id+'-'+i})))
+                                 {type: inp_type}, {id: label_id+'-'+i})))
     }
     $uni_div.append($field_div)
   }
   $uni_div.append(makeElement('div', Object.assign({class: "error"}, {id: label_id+'-err'})))
   $element.append($uni_div);
+}
+
+function uniSelect(meta, path, $element) {
+  extractor(meta, path, $element, false, "radio")
 }
 
 
