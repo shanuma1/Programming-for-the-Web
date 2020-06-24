@@ -103,7 +103,14 @@ function header(meta, path, $element) {
 }
 
 function input(meta, path, $element) {
-  //@TODO
+  const text = meta.required ? '*' : ""; 
+  const idi = makeId(path)
+  if(!meta.attr['id']) Object.assign(meta.attr, {id: idi})
+  //console.log(meta.subType)
+  const typei = meta.subType || "text"
+  console.log(typei)
+  $element.append(makeElement('label', meta.attr).text(meta.text + text))
+  $element.append(makeElement('input', Object.assign(meta.attr, {type: typei})));
 }
 
 function link(meta, path, $element) {
@@ -130,7 +137,9 @@ function segment(meta, path, $element) {
 
 
 function submit(meta, path, $element) {
-  //@TODO
+  const attr = Object.assign(meta.attr||{}, { type: 'submit'});
+  $element.append(makeElement('div'));
+  $element.append(makeElement('button', attr).text(meta.text||"Submit"))
 }
 
 function uniSelect(meta, path, $element) {
