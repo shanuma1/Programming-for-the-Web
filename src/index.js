@@ -82,8 +82,8 @@ function items(tag, meta, path, $element) {
 //A type handling function has the signature (meta, path, $element) =>
 //void.  It will append the HTML corresponding to meta (which is
 //Meta[path]) to $element.
-
 function block(meta, path, $element) { items('div', meta, path, $element); }
+
 
 function form(meta, path, $element) {
   const $form = items('form', meta, path, $element);
@@ -91,8 +91,22 @@ function form(meta, path, $element) {
     event.preventDefault();
     const $form = $(this);
     //@TODO
-    // const results = ...;
-    // console.log(JSON.stringify(results, null, 2));
+    const results = $form.serializeArray();
+    let obj = {};
+    let x = 0;
+    for (x in results) {
+      let name = results[x].name;
+      let values = results[x].value;
+      if ($(`[name="${name}"]`, $form).attr("multiple") || $(`[name="${name}"]`, $form).attr("type") == "checkbox") {
+          if(!obj[`${name}`]) {
+             obj[`${name}`] = []
+             obj[`${name}`].push(values)
+          } else obj[`${name}`].push(values);
+      } else {
+          obj[`${name}`] = values
+      }
+    }
+    console.log(JSON.stringify(obj, null, 2));
   });
 }
 
@@ -105,9 +119,8 @@ function header(meta, path, $element) {
 function input(meta, path, $element) {
   const text = meta.required ? '*' : ""; 
   const id_attr = makeId(path)
-  if(!meta.attr['id']) Object.assign(meta.attr, {id: id_attr})
+  if(!meta.attr['id']) Object.assign(meta.attr, {for: id_attr})
   const type_attr = meta.subType || "text"
-  console.log(type_attr)
   $element.append(makeElement('label', meta.attr).text(meta.text + text))
   const $input_div = makeElement('div')
   $input_div.append(makeElement('input', Object.assign(meta.attr, {type: type_attr})));
@@ -146,10 +159,9 @@ function submit(meta, path, $element) {
 }
 
 function extractor(meta, path, $element, multi, inp_type) {
-  console.log(meta)
   const $uni_div = makeElement('div')
   const label_id = makeId(path)
-  $element.append(makeElement('label', Object.assign({}, {id: label_id})).text(meta.text))
+  $element.append(makeElement('label', Object.assign({}, {for: label_id})).text(meta.text))
   const greater_inp = meta.items.length > Meta._options.N_UNI_SELECT;
   if(greater_inp) {
     let multi_en
@@ -163,7 +175,7 @@ function extractor(meta, path, $element, multi, inp_type) {
   } else {
     const $field_div = makeElement('div', {class: "fieldset"})
     for (let i  = 0; i < meta.items.length; i++) {
-      $field_div.append(makeElement('label', {id: label_id}).text(meta.items[i].key))
+      $field_div.append(makeElement('label', {for: label_id}).text(meta.items[i].key))
       $field_div.append(makeElement('input', Object.assign(meta.attr, {value: meta.items[i].key},
                                  {type: inp_type}, {id: label_id+'-'+i})))
     }
