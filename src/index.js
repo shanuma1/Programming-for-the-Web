@@ -105,10 +105,17 @@ function form(meta, path, $element) {
           obj[`${name}`] = values
       }
     }
-    console.log($form)
     $('input,select,textarea', $form).trigger('blur');
     $('input,select', $form).trigger('change');
-    if (!$('.error', $form)) {
+    if ($(`input[name="primaryColors"]:checked`, $form).length == 0) {
+    $('div.fieldset', $form).trigger('change')
+    }
+    const len = $('.error', $form).length
+    let mark = true;
+    for (let i = 0; i < len; i++) {
+      if ($('.error', $form)[i].innerHTML != "") mark = false;
+    }
+    if (mark) {
       console.log(JSON.stringify(obj, null, 2));
     }
   });
@@ -135,11 +142,17 @@ function input(meta, path, $element) {
   $element.append($input_div)
   $input_div.on("blur","input", function(event) {
     const str = $(event.target).val().trim();
-    if (meta.required && !text == "") {
+    if (meta.required && !str) {
       $('#'+id_attr+'-err').text(`The field ${meta.text} must be specified.`)
-    } else if(!meta.chkFn(str)) {
-      const errMsg = 'errMsgFn' in meta ?  meta.errMsgFn(str, meta) : `invalid value ${str}`
-      $('#'+id_attr+'-err').text(errMsg);
+    } else if('chkFn' in meta && str) {
+        if(!meta.chkFn(str)) {
+          const errMsg = 'errMsgFn' in meta ?  meta.errMsgFn(str, meta) : `invalid value ${str}`
+          $('#'+id_attr+'-err').text(errMsg);
+        } else {
+          $('#'+id_attr+'-err').text("")
+        }
+    } else {
+      $('#'+id_attr+'-err').text("")
     }
   });
   
@@ -190,7 +203,7 @@ function extractor(meta, path, $element, multi, inp_type) {
     }
     $uni_div.append($sel)
   } else {
-    const $field_div = makeElement('div', {class: "fieldset"})
+    const $field_div = makeElement('div', Object.assign({class: "fieldset"}))
     for (let i  = 0; i < meta.items.length; i++) {
       $field_div.append(makeElement('label', {for: label_id}).text(meta.items[i].key))
       $field_div.append(makeElement('input', Object.assign(meta.attr, {value: meta.items[i].key},
@@ -202,13 +215,22 @@ function extractor(meta, path, $element, multi, inp_type) {
   $element.append($uni_div);
   $uni_div.on("change", function(event) {
     const errorId = '#' + label_id + '-err';
-    console.log($(event.target).val())
+    console.log($(`input[name="primaryColors"]:checked`).length);
+    console.log(meta.required)
+    console.log(errorId)
+    if($(`input[name="primaryColors"]:checked`).length == 0 && meta.required) {
+      $(errorId).text(`The field ${meta.text} must be specified.`)
+    } else if ($(`input[name="primaryColors"]:checked`).length != 0 && meta.required) {
+      $(errorId).text("")
+    }
     if (meta.required && !$(event.target).val()) {
       $(errorId).html(`The field ${meta.text} must be specified.`)
-    } 
+    } else {
+      $(errorId).text("")
+    }
+    
     
   });
-  console.log(meta);
   
 }
 
