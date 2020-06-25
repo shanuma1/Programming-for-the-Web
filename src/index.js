@@ -50,7 +50,7 @@ function access(path) {
 }
 
 /** Return an id constructed from list path */
-function makeId(path) { return ('/' + path.join('/')); }
+function makeId(path) { return (path.join('-')); }
 
 function getType(meta) {
   return meta.type || 'block';
@@ -70,7 +70,7 @@ function items(tag, meta, path, $element) {
 
 /************************** Event Handlers *****************************/
 
-//@TODO
+
 
 /********************** Type Routine Common Handling *******************/
 
@@ -90,7 +90,6 @@ function form(meta, path, $element) {
   $form.submit(function(event) {
     event.preventDefault();
     const $form = $(this);
-    //@TODO
     const results = $form.serializeArray();
     let obj = {};
     let x = 0;
@@ -106,7 +105,12 @@ function form(meta, path, $element) {
           obj[`${name}`] = values
       }
     }
-    console.log(JSON.stringify(obj, null, 2));
+    console.log($form)
+    $('input,select,textarea', $form).trigger('blur');
+    $('input,select', $form).trigger('change');
+    if (!$('.error', $form)) {
+      console.log(JSON.stringify(obj, null, 2));
+    }
   });
 }
 
@@ -121,12 +125,24 @@ function input(meta, path, $element) {
   const id_attr = makeId(path)
   if(!meta.attr['id']) Object.assign(meta.attr, {for: id_attr})
   const type_attr = meta.subType || "text"
-  $element.append(makeElement('label', meta.attr).text(meta.text + text))
+  const fin_text = meta.text ? meta.text + text : "";
+  $element.append(makeElement('label', meta.attr).text(fin_text))
   const $input_div = makeElement('div')
   $input_div.append(makeElement('input', Object.assign(meta.attr, {type: type_attr})));
+  
   //$input_div.append(makeElement('div', Object.assign({}, {class: "error"}, {id: id_attr+'-err'})).text('The field Search Terms must be Specified'))
-  $input_div.append(makeElement('div', Object.assign({}, {class: "error"})))
+  $input_div.append(makeElement('div', Object.assign({id: id_attr+'-err'}, {class: "error"})))
   $element.append($input_div)
+  $input_div.on("blur","input", function(event) {
+    const str = $(event.target).val().trim();
+    if (meta.required && !text == "") {
+      $('#'+id_attr+'-err').text(`The field ${meta.text} must be specified.`)
+    } else if(!meta.chkFn(str)) {
+      const errMsg = 'errMsgFn' in meta ?  meta.errMsgFn(str, meta) : `invalid value ${str}`
+      $('#'+id_attr+'-err').text(errMsg);
+    }
+  });
+  
 }
 
 function link(meta, path, $element) {
@@ -137,7 +153,7 @@ function link(meta, path, $element) {
 }
 
 function multiSelect(meta, path, $element) {
-  extractor(meta, path, $element, true, "checkbox")
+  extractor(meta, path, $element, true, "checkbox");
 }
 
 function para(meta, path, $element) { items('p', meta, path, $element); }
@@ -159,9 +175,10 @@ function submit(meta, path, $element) {
 }
 
 function extractor(meta, path, $element, multi, inp_type) {
+  const text = meta.required ? '*' : "";
   const $uni_div = makeElement('div')
   const label_id = makeId(path)
-  $element.append(makeElement('label', Object.assign({}, {for: label_id})).text(meta.text))
+  $element.append(makeElement('label', Object.assign({}, {for: label_id})).text(meta.text + text))
   const greater_inp = meta.items.length > Meta._options.N_UNI_SELECT;
   if(greater_inp) {
     let multi_en
@@ -181,14 +198,24 @@ function extractor(meta, path, $element, multi, inp_type) {
     }
     $uni_div.append($field_div)
   }
-  $uni_div.append(makeElement('div', Object.assign({class: "error"}, {id: label_id+'-err'})))
+  $uni_div.append(makeElement('div', Object.assign({class: "error"}, {id: label_id+"-err"})))
   $element.append($uni_div);
+  $uni_div.on("change", function(event) {
+    const errorId = '#' + label_id + '-err';
+    console.log($(event.target).val())
+    if (meta.required && !$(event.target).val()) {
+      $(errorId).html(`The field ${meta.text} must be specified.`)
+    } 
+    
+  });
+  console.log(meta);
+  
 }
 
 function uniSelect(meta, path, $element) {
   extractor(meta, path, $element, false, "radio")
+  
 }
-
 
 //map from type to type handling function.  
 const FNS = {
