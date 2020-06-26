@@ -1,6 +1,6 @@
-Name:		XXX
-B-Number:	XXX
-Email:		XXX
+Name:		Sushma Hanumanthu <br>
+B-Number:	XXX <br>
+Email:		XXX<br>
 
 To run this project on your local machine make sure you have npm installed.
 
