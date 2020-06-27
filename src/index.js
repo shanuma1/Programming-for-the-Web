@@ -67,16 +67,6 @@ function items(tag, meta, path, $element) {
   $element.append($e);
   return $e;
 }
-
-/************************** Event Handlers *****************************/
-
-
-
-/********************** Type Routine Common Handling *******************/
-
-//@TODO
-
-
 /***************************** Type Routines ***************************/
 
 //A type handling function has the signature (meta, path, $element) =>
@@ -215,9 +205,6 @@ function extractor(meta, path, $element, multi, inp_type) {
   $element.append($uni_div);
   $uni_div.on("change", function(event) {
     const errorId = '#' + label_id + '-err';
-    console.log($(`input[name="primaryColors"]:checked`).length);
-    console.log(meta.required)
-    console.log(errorId)
     if($(`input[name="primaryColors"]:checked`).length == 0 && meta.required) {
       $(errorId).text(`The field ${meta.text} must be specified.`)
     } else if ($(`input[name="primaryColors"]:checked`).length != 0 && meta.required) {
