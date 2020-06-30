@@ -1,6 +1,6 @@
 Name:		Sushma Hanumanthu <br>
-B-Number:	XXX <br>
-Email:		XXX<br>
+B-Number:	Boo817656
+Email:		shanuma1@binghamton.edu
 
 To run this project on your local machine make sure you have npm installed.
 
