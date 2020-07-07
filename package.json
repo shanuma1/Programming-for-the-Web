@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/shanuma1/i544/issues"
   },
-  "homepage": "https://github.com/shanuma1/i544#readme"
+  "homepage": "https://github.com/shanuma1/i544#readme",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "mongodb": "^3.5.9"
+  }
 }

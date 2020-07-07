@@ -3,9 +3,11 @@ import Validator from './validator.mjs';
 import ModelError from './model-error.mjs';
 
 import mongo from 'mongodb';
+import MongoClient from 'mongodb';
 
-import assert from 'assert';
+import assert, { match } from 'assert';
 import util from 'util';
+import { count } from 'console';
 
 
 /** 
@@ -67,12 +69,17 @@ export default class Model {
    *  by dbUrl
    */ 
   static async make(dbUrl) {
-    let client;
     try {
-      //@TODO
+      const client = await mongo.connect(dbUrl);
+      const db = client.db("books");
+      const carts = db.collection("carts");
+      const books = db.collection("books");
       const props = {
-	validator: new Validator(META),
-	//@TODO other properties
+  validator: new Validator(META),
+  client: client,
+  carts: carts,
+  books: books,
+  db: db,
       };
       const model = new Model(props);
       return model;
@@ -87,12 +94,23 @@ export default class Model {
    *  close any database connections.
    */
   async close() {
-    //@TODO
+    try {
+      await this.client.close();
+    } catch(err) {
+      throw new ModelError("DB", err.toString());
+    }
+
   }
 
   /** Clear out all data stored within this model. */
   async clear() {
-    //@TODO
+    Count = 0;
+    try {
+        await this.carts.remove();
+        await this.books.remove();
+    } catch(err) {
+      throw new ModelError("DB", err.toString());
+    }
   }
   
   //Action routines
@@ -106,8 +124,15 @@ export default class Model {
    */
   async newCart(rawNameValues) {
     const nameValues = this._validate('newCart', rawNameValues);
-    //@TODO
-    return '@TODO';
+    let length = await this.carts.count()
+    const id = length * Math.random()
+    const newItem = {
+      '_id': id,
+      '_lastModified': new Date().getTime(),
+    }
+    this.carts.insertOne(newItem);
+    Count++;
+    return newItem._id
   }
 
   /** Given fields { cartId, sku, nUnits } = rawNameValues, update
@@ -120,9 +145,14 @@ export default class Model {
    */
   async cartItem(rawNameValues) {
     const nameValues = this._validate('cartItem', rawNameValues);
-    //@TODO
+    try {
+      const sku = rawNameValues['sku'].toString();
+      this.carts.updateOne({"_id": rawNameValues['cartId']}, {$set:{sku: rawNameValues['nUnits'], "_lastModified": new Date().getTime()}})
+    } catch(err) {
+      throw `BAD_ID: ${rawNameValues['cartId']} does not reference a cart`;
+    }
   }
-  
+
   /** Given fields { cartId } = nameValues, return cart identified by
    *  cartId.  The cart is returned as an object which contains a
    *  mapping from SKU's to *positive* integers (representing the
@@ -136,8 +166,11 @@ export default class Model {
    */
   async getCart(rawNameValues) {
     const nameValues = this._validate('getCart', rawNameValues);
-    //@TODO
-    return {};
+    try {
+    return await this.carts.findOne({"_id": mongo.ObjectID(nameValues["cartId"])});
+    } catch(err) {
+      throw `BAD_ID: ${rawNameValues['cartId']} does not reference a cart`;
+    }
   }
 
   /** Given fields { isbn, title, authors, publisher, year, pages } =
@@ -153,7 +186,20 @@ export default class Model {
    */
   async addBook(rawNameValues) {
     const nameValues = this._validate('addBook', rawNameValues);
-    //@TODO
+    try {
+      const data = {
+        "_id": nameValues['isbn'],
+        "isbn": nameValues['isbn'],
+        "title": nameValues['title'],
+        "authors": nameValues['authors'],
+        "publisher": nameValues['publisher'],
+        "year": nameValues['year'],
+        "pages": nameValues['pages']
+      }
+      this.books.update({"_id":nameValues['isbn']}, data, {upsert: true})
+    } catch(err) {
+
+    }
   }
 
   /** Given fields { isbn, authorsTitle, _count=COUNT, _index=0 } =
@@ -195,7 +241,8 @@ export default class Model {
     if (errs.length > 0) throw errs;
     return nameValues;
   }
-  
+
+ 
   
 };
 
@@ -206,3 +253,4 @@ const MONGO_CONNECT_OPTIONS = { useUnifiedTopology: true };
 const COUNT = 5;
 
 //define private constants and functions here.
+let Count = 0;
