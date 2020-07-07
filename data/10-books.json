@@ -1,0 +1,117 @@
+[
+  {
+    "title": "The Idiot's Guide to APL",
+    "authors": [
+      "Nickason, Callie",
+      "Wogan, Alani",
+      "Blenkin, Kai"
+    ],
+    "isbn": "814-278-966-5",
+    "pages": 300,
+    "year": 2012,
+    "publisher": "Addison-Wesley"
+  },
+  {
+    "title": "Basics of Bliss Programming",
+    "authors": [
+      "Wolfkeil, Joey",
+      "Tharp, Yessenia"
+    ],
+    "isbn": "735-411-209-1",
+    "pages": 303,
+    "year": 2014,
+    "publisher": "Prentice-Hall"
+  },
+  {
+    "title": "Fundamentals of Bliss Programming",
+    "authors": [
+      "Valenzuela, Mario",
+      "Wolk, Katelin"
+    ],
+    "isbn": "783-408-420-2",
+    "pages": 425,
+    "year": 2004,
+    "publisher": "Pearson"
+  }, 
+  {
+    "title": "The Idiot's Guide to Bliss",
+    "authors": [
+      "Anderson, Yair",
+      "Jamar, Joey"
+    ],
+    "isbn": "758-807-384-9",
+    "pages": 520,
+    "year": 2007,
+    "publisher": "Manning"
+  },
+  {
+    "title": "C++ Programmers Reference",
+    "authors": [
+      "Abbett, Latasha"
+    ],
+    "isbn": "627-245-040-3",
+    "pages": 102,
+    "year": 2003,
+    "publisher": "Manning"
+  },
+  {
+    "title": "The Idiot's Guide to C++",
+    "authors": [
+      "Tarter, Jaquana",
+      "Sanon, Willow"
+    ],
+    "isbn": "361-103-520-8",
+    "pages": 232,
+    "year": 2018,
+    "publisher": "Addison-Wesley"
+  },
+  {
+    "title": "Basics of C++ Programming",
+    "authors": [
+      "Abbett, Latasha",
+      "Sigala, Karley",
+      "Salinas, Maryann",
+      "Tarter, Jaquana"
+    ],
+    "isbn": "889-470-638-8",
+    "pages": 435,
+    "year": 2018,
+    "publisher": "Pearson"
+  },
+  {
+    "title": "C++ Reference Manual",
+    "authors": [
+      "Rains, Frida",
+      "Wiltse, Devante",
+      "Durkes, August"
+    ],
+    "isbn": "003-779-415-0",
+    "pages": 187,
+    "year": 2012,
+    "publisher": "O'Reilly"
+  },
+  {
+    "title": "Fundamentals of C++ Programming",
+    "authors": [
+      "Rains, Frida",
+      "Wildman, Caitlan"
+    ],
+    "isbn": "059-532-706-2",
+    "pages": 476,
+    "year": 2012,
+    "publisher": "O'Reilly"
+  },
+  {
+    "title": "Basics of Python Programming",
+    "authors": [
+      "Abbett, Latasha",
+      "Salinas, Maryann",
+      "Winowitch, Alden",
+      "Winson, Gideon"
+    ],
+    "isbn": "201-072-306-4",
+    "pages": 588,
+    "year": 2004,
+    "publisher": "Manning"
+  },
+]
