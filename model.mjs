@@ -74,7 +74,9 @@ export default class Model {
       const db = client.db("books");
       const carts = db.collection("carts");
       const books = db.collection("books");
-      books.createIndex({"title":"text", "authors":"text"});
+     
+      await books.createIndex({"title":"text", "authors":"text"});
+      
       
       const props = {
   validator: new Validator(META),
@@ -147,11 +149,19 @@ export default class Model {
    */
   async cartItem(rawNameValues) {
     const nameValues = this._validate('cartItem', rawNameValues);
+    let errs;
     try {
+      try {
+        this.books.find({"isbn":nameValues['sku']})
+      } catch(err) {
+        errs = err;
+      }
       const sku = rawNameValues['sku'].toString();
       this.carts.updateOne({"_id": rawNameValues['cartId']}, {$set:{sku: rawNameValues['nUnits'], "_lastModified": new Date().getTime()}})
     } catch(err) {
-      throw `BAD_ID: ${rawNameValues['cartId']} does not reference a cart`;
+      if (errs) `sku:BAD_ID: unkown sku ${sku}`
+      throw `cartId:BAD_ID: ${rawNameValues['cartId']} does not reference a cart`;
+      
     }
   }
 
@@ -199,7 +209,6 @@ export default class Model {
         "pages": rawNameValues['pages']
       }
       this.books.update({"_id":rawNameValues['isbn']}, data, {upsert: true})
-      //this.books.insertOne(data)
     } catch(err) {
 
     }
@@ -218,8 +227,16 @@ export default class Model {
    */
   async findBooks(rawNameValues) {
     const nameValues = this._validate('findBooks', rawNameValues);
-    //if (!nameValues['_index']) nameValues['_index'] = 0
-    return await this.books.find({$text:{$search:nameValues['authorsTitleSearch']}}).sort({"title":1}).skip(1).limit(nameValues['_count']).toArray();
+    let dat =  await this.books.stats()
+    if (!nameValues['isbn']) {
+      return await this.books.find({$text:{$search:nameValues['authorsTitleSearch']}}).sort({"title":1}).skip(nameValues['_index']||0).limit(nameValues['_count']||5).toArray();
+    } else {
+      if (!nameValues['authorsTitleSearch']) {
+      return await this.books.find({"isbn":nameValues['isbn']}).sort({"title":1}).skip(nameValues['_index']||0).limit(nameValues['_count']||5).toArray();  
+      } else {
+        return await this.books.find({"isbn":nameValues['isbn'],$text:{$search:nameValues['authorsTitleSearch']}}).sort({"title":1}).skip(nameValues['_index']||0).limit(nameValues['_count']||5).toArray();  
+      }
+    }
   }
 
   //wrapper around this.validator to verify that no external field
