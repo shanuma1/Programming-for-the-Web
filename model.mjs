@@ -74,6 +74,8 @@ export default class Model {
       const db = client.db("books");
       const carts = db.collection("carts");
       const books = db.collection("books");
+      books.createIndex({"title":"text", "authors":"text"});
+      
       const props = {
   validator: new Validator(META),
   client: client,
@@ -185,18 +187,19 @@ export default class Model {
    *  the current Date timestamp.
    */
   async addBook(rawNameValues) {
-    const nameValues = this._validate('addBook', rawNameValues);
+    //const nameValues = this._validate('addBook', rawNameValues);
     try {
       const data = {
-        "_id": nameValues['isbn'],
-        "isbn": nameValues['isbn'],
-        "title": nameValues['title'],
-        "authors": nameValues['authors'],
-        "publisher": nameValues['publisher'],
-        "year": nameValues['year'],
-        "pages": nameValues['pages']
+        "_id": rawNameValues['isbn'],
+        "isbn": rawNameValues['isbn'],
+        "title": rawNameValues['title'],
+        "authors": rawNameValues['authors'],
+        "publisher": rawNameValues['publisher'],
+        "year": rawNameValues['year'],
+        "pages": rawNameValues['pages']
       }
-      this.books.update({"_id":nameValues['isbn']}, data, {upsert: true})
+      this.books.update({"_id":rawNameValues['isbn']}, data, {upsert: true})
+      //this.books.insertOne(data)
     } catch(err) {
 
     }
@@ -215,8 +218,8 @@ export default class Model {
    */
   async findBooks(rawNameValues) {
     const nameValues = this._validate('findBooks', rawNameValues);
-    //@TODO
-    return [];
+    //if (!nameValues['_index']) nameValues['_index'] = 0
+    return await this.books.find({$text:{$search:nameValues['authorsTitleSearch']}}).sort({"title":1}).skip(1).limit(nameValues['_count']).toArray();
   }
 
   //wrapper around this.validator to verify that no external field
