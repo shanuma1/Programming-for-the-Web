@@ -206,18 +206,18 @@ export default class Model {
    *  the current Date timestamp.
    */
   async addBook(rawNameValues) {
-    //const nameValues = this._validate('addBook', rawNameValues);
+    const nameValues = this._validate('addBook', rawNameValues);
     try {
       const data = {
-        "_id": rawNameValues['isbn'],
-        "isbn": rawNameValues['isbn'],
-        "title": rawNameValues['title'],
-        "authors": rawNameValues['authors'],
-        "publisher": rawNameValues['publisher'],
-        "year": rawNameValues['year'],
-        "pages": rawNameValues['pages']
+        "_id": nameValues['isbn'],
+        "isbn": nameValues['isbn'],
+        "title": nameValues['title'],
+        "authors": nameValues['authors'],
+        "publisher": nameValues['publisher'],
+        "year": nameValues['year'],
+        "pages": nameValues['pages']
       }
-      await this.books.update({"_id":rawNameValues['isbn']}, data, {upsert: true})
+      await this.books.updateOne({"_id":nameValues['isbn']}, data, {upsert: true})
     } catch(err) {
 
     }
