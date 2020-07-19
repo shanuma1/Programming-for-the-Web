@@ -70,10 +70,14 @@ export default class Model {
    */ 
   static async make(dbUrl) {
     try {
-      const client = await mongo.connect(dbUrl);
+      const client = await mongo.connect(dbUrl, MONGO_CONNECT_OPTIONS);
       const db = client.db("books");
       const carts = db.collection("carts");
       const books = db.collection("books");
+     
+      await books.createIndex({"title":"text", "authors":"text"});
+      
+      
       const props = {
   validator: new Validator(META),
   client: client,
@@ -124,14 +128,14 @@ export default class Model {
    */
   async newCart(rawNameValues) {
     const nameValues = this._validate('newCart', rawNameValues);
-    let length = await this.carts.count()
+    let length = await this.carts.countDocuments()
     const id = length * Math.random()
     const newItem = {
       '_id': id,
-      '_lastModified': new Date().getTime(),
+      '_lastModified': new Date(),
     }
-    this.carts.insertOne(newItem);
-    Count++;
+    //await this.carts.updateOne({"_id":id}, {$currentDate:{_lastModified:true}})
+    await this.carts.insertOne(newItem);
     return newItem._id
   }
 
@@ -145,11 +149,25 @@ export default class Model {
    */
   async cartItem(rawNameValues) {
     const nameValues = this._validate('cartItem', rawNameValues);
+    //throw nameValues['sku']
+    //throw await this.books.find({isbn: nameValues['sku']}).limit(1)
+    const k = JSON.stringify(await this.findBooks({'isbn':nameValues['sku'],})).length
+    if(k==2) throw `sku:BAD_ID: unknown sku ${nameValues['sku']}`
+    var sku = rawNameValues['sku'].toString();
+      const tmp = {};
+      tmp[sku] = nameValues['nUnits'];
     try {
-      const sku = rawNameValues['sku'].toString();
-      this.carts.updateOne({"_id": rawNameValues['cartId']}, {$set:{sku: rawNameValues['nUnits'], "_lastModified": new Date().getTime()}})
+      const a = await this.carts.findOne({"_id": Number(nameValues["cartId"])});;
+    if (a) return a;
+    else throw "a"
+      if (nameValues['nUnits'] != 0) {
+      this.carts.updateOne({"_id": Number(nameValues['cartId'])}, {$set:tmp, $currentDate:{_lastModified:true}}) 
+      } else {
+        this.carts.updateOne({"_id": Number(nameValues['cartId'])}, {$unset:tmp, $currentDate:{_lastModified:true}})  
+      }
     } catch(err) {
-      throw `BAD_ID: ${rawNameValues['cartId']} does not reference a cart`;
+      throw `cartId:BAD_ID: ${rawNameValues['cartId']} does not reference a cart`;
+      
     }
   }
 
@@ -167,7 +185,10 @@ export default class Model {
   async getCart(rawNameValues) {
     const nameValues = this._validate('getCart', rawNameValues);
     try {
-    return await this.carts.findOne({"_id": mongo.ObjectID(nameValues["cartId"])});
+      const a = await this.carts.findOne({"_id": Number(nameValues["cartId"])});;
+    if (a) return a;
+    else throw "a"
+   
     } catch(err) {
       throw `BAD_ID: ${rawNameValues['cartId']} does not reference a cart`;
     }
@@ -196,7 +217,7 @@ export default class Model {
         "year": nameValues['year'],
         "pages": nameValues['pages']
       }
-      this.books.update({"_id":nameValues['isbn']}, data, {upsert: true})
+      await this.books.updateOne({"_id":nameValues['isbn']}, data, {upsert: true})
     } catch(err) {
 
     }
@@ -215,8 +236,16 @@ export default class Model {
    */
   async findBooks(rawNameValues) {
     const nameValues = this._validate('findBooks', rawNameValues);
-    //@TODO
-    return [];
+    let dat =  await this.books.stats()
+    if (!nameValues['isbn']) {
+      return await this.books.find({$text:{$search:nameValues['authorsTitleSearch']}}).sort({"title":1}).skip(nameValues['_index']||0).limit(nameValues['_count']||5).toArray();
+    } else {
+      if (!nameValues['authorsTitleSearch']) {
+      return await this.books.find({"isbn":nameValues['isbn']}).sort({"title":1}).skip(nameValues['_index']||0).limit(nameValues['_count']||5).toArray();  
+      } else {
+        return await this.books.find({"isbn":nameValues['isbn'],$text:{$search:nameValues['authorsTitleSearch']}}).sort({"title":1}).skip(nameValues['_index']||0).limit(nameValues['_count']||5).toArray();  
+      }
+    }
   }
 
   //wrapper around this.validator to verify that no external field
