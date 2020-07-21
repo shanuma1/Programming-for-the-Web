@@ -165,6 +165,19 @@ function doFind(app) {
       const patch = {}
       const port = req.app.locals.port;
       if(req.query.authorsTitleSearch) Object.assign(patch, {authorsTitleSearch: req.query.authorsTitleSearch})
+      else {
+        const err = {
+          "errors" : [
+             {
+                "code" : "FORM_ERROR",
+                "message" : "At least one search field must be specified.",
+                "name" : ""
+             }
+          ],
+          "status" : 400
+       }
+       res.status(400).send(err)
+      }
       if(req.query._index) Object.assign(patch, {_index: req.query._index})
       else Object.assign(patch, {_index: 0})
       if(req.query._count) Object.assign(patch, {_count: req.query._count + 1})
@@ -214,17 +227,24 @@ function doFind(app) {
 }
 
 function doFindIsbn(app) {
-  return async function(req, res) {
+  return async function(req, res, next) {
     try {
       const port = req.app.locals.port;
+      
       const results = await app.locals.model.findBooks(Object.assign({}, {"isbn":req.params.id}))
       if (results.length === 0) {
-        throw  {
-          isDomain: true,
-          errorCode: "NOT_FOUND",
-          message: `book not found`
-        };
-        
+         
+        const err = {
+           "errors" : [
+              {
+                 "code" : "BAD_ID",
+                 "message" : `no book for isbn ${req.params.id}`,
+                 "name" : "isbn"
+              }
+           ],
+           "status" : 404
+        }
+        res.status(404).send(err)
       } else {
         for (let k of results) {
           k.links = {href: `${req.protocol}://${req.hostname}:${port}/books/${k.isbn}`,
