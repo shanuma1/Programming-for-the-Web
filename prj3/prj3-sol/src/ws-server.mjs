@@ -38,7 +38,11 @@ function setupRoutes(app) {
   //application routes
   app.get(`/${BASE}`, doBase(app));
   //@TODO: add other application routes
-
+  app.post(`/${BASE}/carts`, doPostCart(app));
+  app.get(`/${BASE}/carts/:id`, doGetCart(app));
+  app.patch(`/${BASE}/carts/:id`, doUpdateCart(app));
+  app.get(`/${BASE}/books`, doFind(app));
+  app.get(`/${BASE}/books/:id`, doFindIsbn(app));
   //must be last
   app.use(do404(app));
   app.use(doErrors(app));
@@ -65,9 +69,11 @@ function reqBaseUrl(req, res, next) {
 function doBase(app) {
   return function(req, res) { 
     try {
+      const port = req.app.locals.port;
       const links = [
 	{ rel: 'self', name: 'self', href: req.selfUrl, },
-	//@TODO add links for book and cart collections
+  { rel: 'collection', name: 'books', href: `${req.protocol}://${req.hostname}:${port}/${BASE}/books`},
+  { rel: 'collection', name: 'carts', href: `${req.protocol}://${req.hostname}:${port}/${BASE}/carts`},  
       ];
       res.json({ links });
     }
@@ -79,7 +85,165 @@ function doBase(app) {
 }
 
 //@TODO: Add handlers for other application routes
+function doPostCart(app) {
+  return async function(req, res) {
+    try{
+      const vari = res.body;
+      const port = req.app.locals.port;
+      const results = await app.locals.model.newCart(vari)
+      res.append("Location", `${req.protocol}://${req.hostname}:${port}/${BASE}/carts/` + results)
+      res.sendStatus(CREATED);
+    } catch (err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json(mapped);
+    }
+  }
+}
 
+function doGetCart(app) {
+  return async function(req, res) {
+    try  {
+      const id = req.params.id;
+      const port = req.app.locals.port;
+      const results = await app.locals.model.getCart({ cartId: id });
+      if (results.length === 0) {
+        throw  {
+          isDomain: true,
+          errorCode: "NOT_FOUND",
+          message: `cart ${id} not found`
+        };
+      } else {
+       
+        const job = JSON.parse(JSON.stringify(results))
+        const result = {_lastModified: job['_lastModified']}
+        const que = []
+        for (const k in job) {
+          if (k != "_lastModified") {
+            que.push({
+              links:[{
+                href: `${req.protocol}://${req.hostname}:${port}/${BASE}/books/` + k,
+                name: "book",
+                rel: "item",
+              }],
+              nUnits: job[k],
+              sku: k,
+            })
+          }
+        }
+        Object.assign(result, {"links":[{
+          "href":  `${req.protocol}://${req.hostname}:${port}/${BASE}/carts/` + id,
+          "name": "self",
+          "rel" : "self",
+        }], 'results':que})
+        res.json(result);
+      }
+    } catch (err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json(mapped);
+    }
+  }
+}
+
+function doUpdateCart(app) {
+  return async function(req, res) {
+    try {
+      const patch = Object.assign({}, req.body);
+      patch.cartId = req.params.id;
+      const results = await app.locals.model.cartItem(patch);
+      res.sendStatus(OK);
+    } catch (err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json(mapped);
+    }
+  }
+}
+
+function doFind(app) {
+  return async function(req, res) {
+    try {
+      const data = Object.assign({}, req.body)
+      const patch = {}
+      const port = req.app.locals.port;
+      if(req.query.authorsTitleSearch) Object.assign(patch, {authorsTitleSearch: req.query.authorsTitleSearch})
+      if(req.query._index) Object.assign(patch, {_index: req.query._index})
+      else Object.assign(patch, {_index: 0})
+      if(req.query._count) Object.assign(patch, {_count: req.query._count + 1})
+      else Object.assign(patch, {_count: 6})
+      if(req.query.isbn) Object.assign(patch, {isbn: req.query.isbn})
+      const results = await app.locals.model.findBooks(patch)
+     
+      const links = [{
+        "href":  `${req.protocol}://${req.hostname}:${port}` + req.url,
+        "name": "self",
+        "rel" : "self",
+      }]
+      const author = req.query.authorsTitleSearch ? `authorsTitleSearch=${req.query.authorsTitleSearch}` : ""
+      let count = req.query._count ? `&_count=${req.query._count}` : ""
+      const c = parseInt(req.query._count, 10) || 5;
+      if (results.length > 5 || results.length > req.query._count) {
+        const index = req.query._index ? `&_index=${parseInt(req.query._index, 10)+c}` : `&_index=${c}`
+        const next_link = {
+            "href":  `${req.protocol}://${req.hostname}:${port}/${BASE}/books?${author}${index}${count}`,
+            "name": "next",
+            "rel" : "next", }
+        links.push(next_link)
+        results.splice(-1)
+      }
+      if (req.query._index > 0) {
+        const index = `_index=${req.query._index-c >= 0 ? req.query._index-c : 0}`
+        req.query._index = 0
+        const prev_link = {
+          "href":  `${req.protocol}://${req.hostname}:${port}/${BASE}/books?${author}&${index}&${count}`,
+          "name": "prev",
+          "rel" : "prev", }
+      links.push(prev_link)
+      }
+        for (let k of results) {
+          k.links = {href: `${req.protocol}://${req.hostname}:${port}/books/${k.isbn}`,
+                      name: "book",
+                      rel: "details"}
+        }
+        const dat = Object.assign({}, {links: links, results:[results]})
+        res.json(dat);
+      
+    } catch (err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json
+    }
+  }
+}
+
+function doFindIsbn(app) {
+  return async function(req, res) {
+    try {
+      const port = req.app.locals.port;
+      const results = await app.locals.model.findBooks(Object.assign({}, {"isbn":req.params.id}))
+      if (results.length === 0) {
+        throw  {
+          isDomain: true,
+          errorCode: "NOT_FOUND",
+          message: `book not found`
+        };
+        
+      } else {
+        for (let k of results) {
+          k.links = {href: `${req.protocol}://${req.hostname}:${port}/books/${k.isbn}`,
+                      name: "book",
+                      rel: "details"}
+        }
+        const dat = Object.assign({}, {links:{
+          "href":  `${req.protocol}://${req.hostname}:${port}` + req.url,
+          "name": "self",
+          "rel" : "self",
+        }, results:[results]})
+        res.json(dat);
+      }
+    } catch (err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json
+    }
+  }
+}
 /** Default handler for when there is no route for a particular method
  *  and path.
  */
@@ -138,5 +302,9 @@ function mapError(err) {
 
 /****************************** Utilities ******************************/
 
-
+/** Return original URL for req */
+function requestUrl(req) {
+  const port = req.app.locals.port;
+  return `${req.protocol}://${req.hostname}:${port}${req.originalUrl}`;
+}
 
