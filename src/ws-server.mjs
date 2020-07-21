@@ -228,10 +228,23 @@ function doFind(app) {
 
 function doFindIsbn(app) {
   return async function(req, res, next) {
+    
     try {
       const port = req.app.locals.port;
-      
-      const results = await app.locals.model.findBooks(Object.assign({}, {"isbn":req.params.id}))
+      if (/[^1234567890-]/g.exec(req.params.id)) {
+        const err = {
+         "errors" : [
+            {
+               "code" : "BAD_FIELD_VALUE",
+               "message" : `bad value: \"${req.params.id}\": The ISBN field must consists of one-or-more digits separated by '-'.`,
+               "name" : "isbn"
+            }
+         ],
+         "status" : 400
+      }
+      res.status(400).send(err)
+      }
+      const  results = await app.locals.model.findBooks(Object.assign({}, {"isbn":req.params.id}))
       if (results.length === 0) {
          
         const err = {
