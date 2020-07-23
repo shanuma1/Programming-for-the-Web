@@ -1,6 +1,6 @@
-Name:		XXX <br>
-B-Number:	XXX <br>
-Email:		XXX <br>
+Name:		sushma Hanumanthu <br>
+B-Number:	B00817656<br>
+Email:		shanuma1@binghamton.edu<br>
 
 This is a express.js driven server application describing CRUD to carts and books on a database collection.
 
